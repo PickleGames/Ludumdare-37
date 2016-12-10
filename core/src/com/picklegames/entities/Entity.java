@@ -56,6 +56,37 @@ public class Entity {
 		}
 	}
 	
+	public Vector2 getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Vector2 velocity) {
+		this.velocity = velocity;
+	}
+
+	public float getWidth() {
+		return width;
+	}
+
+	public void setWidth(float width) {
+		this.width = width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
+	public Body getBody() {
+		return body;
+	}
+
+	public Animation getAnimation() {
+		return animation;
+	}
 
 	public void dispose(){
 		this.body.getFixtureList().clear();
