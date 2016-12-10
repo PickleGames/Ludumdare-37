@@ -56,12 +56,21 @@ public class Entity {
 		}
 	}
 	
+	
 	public Vector2 getVelocity() {
 		return velocity;
 	}
 
 	public void setVelocity(Vector2 velocity) {
 		this.velocity = velocity;
+	}
+	
+	public Vector2 getPosition(){
+		return body.getPosition();
+	}
+	
+	public Vector2 getWorldPosition(){
+		return body.getPosition().scl(B2DVars.PPM);
 	}
 
 	public float getWidth() {
