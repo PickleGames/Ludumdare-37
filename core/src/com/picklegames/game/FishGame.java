@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.picklegames.handlers.B2DVars;
 import com.picklegames.handlers.Content;
+import com.picklegames.handlers.HUD;
 import com.picklegames.managers.GameStateManager;
 
 public class FishGame extends ApplicationAdapter {
@@ -27,6 +28,8 @@ public class FishGame extends ApplicationAdapter {
 	public static OrthographicCamera hudCam;
 	private GameStateManager gsm;
 
+	private HUD hud;
+	
 	private Box2DDebugRenderer bdr;
 
 	@Override
@@ -43,6 +46,7 @@ public class FishGame extends ApplicationAdapter {
 
 		hudCam = new OrthographicCamera();
 		hudCam.setToOrtho(false, V_WIDTH / SCALE, V_HEIGHT / SCALE);
+		hud = new HUD(batch);
 
 		// load up game
 		gsm = new GameStateManager(this);
@@ -58,7 +62,8 @@ public class FishGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		update(Gdx.graphics.getDeltaTime());
 
-		batch.setProjectionMatrix(cam.combined);
+		batch.setProjectionMatrix(hudCam.combined);
+		hud.stage.draw();
 		batch.begin();
 		gsm.render();
 		batch.end();
