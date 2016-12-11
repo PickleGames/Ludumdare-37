@@ -1,8 +1,10 @@
 package com.picklegames.handlers;
 
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -58,6 +60,32 @@ public final class CreateBox2D {
 		fdef.filter.categoryBits = categoryBits;
 		fdef.filter.maskBits = maskBits;
 		return fdef;
+	}
+	
+	public static void createBoxBoundary(World world, Vector2 xy1, float width, float height, short categoryBits, short maskBits){
+		Body body;
+
+		BodyDef bdef = new BodyDef();
+		bdef.type = BodyType.StaticBody;
+		body = world.createBody(bdef);
+		
+		ChainShape cs = new ChainShape();
+		Vector2[] vertices = new Vector2[5];
+		vertices[0] = new Vector2(xy1.x / B2DVars.PPM, xy1.y / B2DVars.PPM);
+		vertices[1] = new Vector2(xy1.x / B2DVars.PPM, xy1.y / B2DVars.PPM + height / B2DVars.PPM);
+		vertices[2] = new Vector2(xy1.x / B2DVars.PPM + width / B2DVars.PPM, xy1.y / B2DVars.PPM + height / B2DVars.PPM);
+		vertices[3] = new Vector2(xy1.x / B2DVars.PPM + width / B2DVars.PPM, xy1.y / B2DVars.PPM);
+		vertices[4] = new Vector2(xy1.x / B2DVars.PPM, xy1.y / B2DVars.PPM);
+		cs.createChain(vertices);
+		
+		FixtureDef fdef = new FixtureDef();
+		fdef.shape = cs;
+		fdef.filter.categoryBits = categoryBits;
+		fdef.filter.maskBits = maskBits;
+		body.createFixture(fdef);
+
+	
+		cs.dispose();
 	}
 
 }

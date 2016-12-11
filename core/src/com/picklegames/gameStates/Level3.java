@@ -5,13 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 import com.picklegames.entities.Fish;
 import com.picklegames.entities.Food;
@@ -24,9 +23,8 @@ import com.picklegames.handlers.MyContactListener;
 import com.picklegames.managers.GameStateManager;
 
 // Miguel Garnica
-// Dec 9, 2016
-public class Play extends GameState {
-
+// Dec 10, 2016
+public class Level3 extends GameState{
 	private Fish fisho;
 	private BitmapFont font;
 	private Vector3 mousePos;
@@ -40,7 +38,7 @@ public class Play extends GameState {
 
 	private Array<Food> food;
 
-	public Play(GameStateManager gsm) {
+	public Level3(GameStateManager gsm) {
 		super(gsm);
 	}
 
@@ -88,8 +86,6 @@ public class Play extends GameState {
 		batch.end();
 
 		mousePos = new Vector3();
-		
-		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 10), 925, 400, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
 	}
 
 	@Override
@@ -183,5 +179,4 @@ public class Play extends GameState {
 		// TODO Auto-generated method stub
 
 	}
-
 }
