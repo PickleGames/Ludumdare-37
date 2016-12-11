@@ -15,6 +15,7 @@ import com.picklegames.game.FishGame;
 import com.picklegames.handlers.B2DVars;
 import com.picklegames.handlers.Background;
 import com.picklegames.handlers.CreateBox2D;
+import com.picklegames.handlers.DayNightCycle;
 import com.picklegames.managers.GameStateManager;
 
 // Miguel Garnica
@@ -27,6 +28,9 @@ public class Play extends GameState {
 	
 	private Background bg;
 	private int fishtankID;
+	
+	private DayNightCycle dayNight;
+	private float dayNightRotation = 0;
 
 	public Play(GameStateManager gsm) {
 		super(gsm);
@@ -61,6 +65,9 @@ public class Play extends GameState {
 		texR = new TextureRegion(tex);
 		bg.addImage(texR, 0, 0, hudCam.viewportWidth, hudCam.viewportHeight);
 		
+		batch.begin();
+		dayNight = new DayNightCycle(20, 100, batch);
+		batch.end();
 	
 		mousePos = new Vector3();
 	}
@@ -80,7 +87,9 @@ public class Play extends GameState {
 		
 		// update fish
 		fisho.update(dt);
-
+		
+		// update cycle rotation
+		dayNightRotation += 0.1f;
 
 	}
 
@@ -88,6 +97,7 @@ public class Play extends GameState {
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.setProjectionMatrix(hudCam.combined);
+		dayNight.renderCycle(dayNightRotation);
 		bg.render(batch);
 		
 		batch.setProjectionMatrix(cam.combined);

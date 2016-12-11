@@ -22,7 +22,6 @@ public class HUD {
 	public int energy = 20;
 	public int hunger = 20;
 	
-	private Texture texture;
 	private Label energyLabel, energyTitleLabel, hungerLabel, hungerTitleLabel;
 	
 	public HUD(SpriteBatch batch) {
