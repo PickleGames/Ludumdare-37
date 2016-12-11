@@ -1,9 +1,13 @@
 package com.picklegames.handlers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -18,6 +22,7 @@ public class HUD {
 	public int energy = 20;
 	public int hunger = 20;
 	
+	private Texture texture;
 	private Label energyLabel, energyTitleLabel, hungerLabel, hungerTitleLabel;
 	
 	public HUD(SpriteBatch batch) {
@@ -45,5 +50,11 @@ public class HUD {
 		
 		//add table to stage
 		stage.addActor(table);
+	}
+	
+	public void addImage(TextureRegion region, int x, int y) { //add image to hud using a textureregion and x,y pos
+		Image actor = new Image(region);
+		stage.addActor(actor);
+		actor.moveBy(x, y);
 	}
 }
