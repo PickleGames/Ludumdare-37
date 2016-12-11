@@ -83,7 +83,7 @@ public class Play extends GameState {
 		game.getWorld().setContactListener(cl);
 
 		batch.begin();
-		dayNight = new DayNightCycle(20, 100, batch);
+		dayNight = new DayNightCycle(20, 180, batch);
 		batch.end();
 
 		mousePos = new Vector3();
@@ -124,7 +124,7 @@ public class Play extends GameState {
 		}
 
 		// update cycle rotation
-		dayNightRotation += 0.1f;
+		dayNightRotation += 0.5f;
 
 	}
 

@@ -22,11 +22,11 @@ public class DayNightCycle {
 		batch = sBatch;
 		x = tempX;
 		y = tempY;
-		batch.draw(cycleTexR, (float)x, (float)y, (float)cycleCircle.getWidth()/2, (float)cycleCircle.getHeight()/2, cycleCircle.getWidth(), cycleCircle.getHeight(), 1, 1, 0);
+		batch.draw(cycleTexR, (float)x, (float)y, (float)cycleCircle.getWidth()/2, (float)cycleCircle.getHeight()/2, cycleCircle.getWidth(), cycleCircle.getHeight(), 1.5f, 1.5f, 0);
 	}
 	
 	public void renderCycle(float rotation) {
-		batch.draw(cycleTexR, (float)x, (float)y, (float)cycleCircle.getWidth()/2, (float)cycleCircle.getHeight()/2, cycleCircle.getWidth(), cycleCircle.getHeight(), 1, 1, rotation);
+		batch.draw(cycleTexR, (float)x, (float)y, (float)cycleCircle.getWidth()/2, (float)cycleCircle.getHeight()/2, cycleCircle.getWidth(), cycleCircle.getHeight(), 1.5f, 1.5f, rotation);
 	}
 	
 }
