@@ -1,22 +1,25 @@
 package com.picklegames.gameStates;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.badlogic.gdx.utils.Array;
 import com.picklegames.entities.Fish;
 import com.picklegames.entities.Food;
 import com.picklegames.game.FishGame;
 import com.picklegames.handlers.B2DVars;
 import com.picklegames.handlers.Background;
+import com.picklegames.handlers.Boundary;
 import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.handlers.DayNightCycle;
 import com.picklegames.handlers.MyContactListener;
@@ -36,8 +39,8 @@ public class Play extends GameState {
 
 	private DayNightCycle dayNight;
 	private float dayNightRotation = 0;
-
-	private Array<Food> food;
+	private Boundary bound;
+	private List<Food> foods;
 
 	public Play(GameStateManager gsm) {
 		super(gsm);
@@ -47,11 +50,14 @@ public class Play extends GameState {
 	public void init() {
 		// TODO Auto-generated method stub
 
+		bound = new Boundary(50, 50, (int)(Gdx.graphics.getWidth() * .90f), (int)(Gdx.graphics.getHeight() * .60f));
+		
 		fishtankID = 1;
 		// load fish
 		fisho = new Fish();
 		createFishBody();
-
+		fisho.setBound(bound);
+		
 		// load font
 		font = new BitmapFont();
 		font.setColor(Color.GOLD);
@@ -75,7 +81,7 @@ public class Play extends GameState {
 		bg.addImage(texR, 0, 0, hudCam.viewportWidth, hudCam.viewportHeight);
 
 		// load food
-		food = new Array<Food>();
+		foods = new ArrayList<Food>();
 		createFood();
 
 		// load and set world contact listener
@@ -91,35 +97,40 @@ public class Play extends GameState {
 
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
+		System.out.println(bound);
+		if(Gdx.input.isButtonPressed(Buttons.LEFT)){
+
+		}
 
 	}
 
 	@Override
 	public void update(float dt) {
-
-		// update mouse position
 		mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		cam.unproject(mousePos);
+		//System.out.println(mousePos);
+		this.handleInput();
+		// update mouse position
 
 		// update fish
 		fisho.update(dt);
-
+		
+		
 		// dirty
-		Array<Body> bodies = cl.getBodiesToRemove();
-		for (int i = 0; i < bodies.size; i++) {
-			Body b = bodies.get(i);
-			food.removeIndex(i);
-			//food.removeValue((Food) b.getUserData(), true);
-			game.getWorld().destroyBody(b);
-			fisho.setWidth(fisho.getWidth() * 1.15f);
-			fisho.setHeight(fisho.getHeight() * 1.15f);
-
-		}
-		bodies.clear();
+//		Array<Body> bodies = cl.getBodiesToRemove();
+//		for (int i = 0; i < bodies.size; i++) {
+//			Body b = bodies.get(i);
+//			foods.remove(i);
+//			//food.removeValue((Food) b.getUserData(), true);
+//			game.getWorld().destroyBody(b);
+////			fisho.setWidth(fisho.getWidth() * 1.15f);
+////			fisho.setHeight(fisho.getHeight() * 1.15f);
+//
+//		}
+//		bodies.clear();
 
 		// update food
-		for (Food f : food) {
+		for (Food f : foods) {
 			f.update(dt);
 		}
 
@@ -137,9 +148,9 @@ public class Play extends GameState {
 
 		batch.setProjectionMatrix(cam.combined);
 		// render food
-		for (Food f : food) {
-			f.render(batch);
-		}
+//		for (Food f : foods) {
+//			f.render(batch);
+//		}
 
 		// render fish
 		fisho.render(batch);
@@ -171,13 +182,13 @@ public class Play extends GameState {
 			shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
 			fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_WALL, B2DVars.BIT_PLAYER);
 			f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
-			food.add(f);
+			foods.add(f);
 		}
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		
 
 	}
 

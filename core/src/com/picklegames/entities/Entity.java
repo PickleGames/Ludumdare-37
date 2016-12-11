@@ -10,34 +10,40 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.picklegames.game.FishGame;
 import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.B2DVars;
+import com.picklegames.handlers.Boundary;
 
-public class Entity {
+public abstract class Entity {
 	private Body body;
 	private Animation animation;
 	private Vector2 velocity;
 	private float width;
 	private float height;
 	private boolean clicked;
-	
 	private Vector3 mouseVec;
+	private Boundary bound;
 
+	
 	public Entity() {
-		this(null);
+		this(null, null);
 	}
 
-	public Entity(Body body) {
+	public Entity(Body body, Boundary bound) {
 		this.body = body;
 		this.animation = new Animation();
 		this.velocity = new Vector2();
 		this.mouseVec = new Vector3();
+		this.bound = bound;
+		this.init();
 	}
 
+	public abstract void init();
+	
 	public void setBody(Body body) {
 		this.body = body;
 	}
 
 	public void setAnimation(TextureRegion reg, float delay) {
-		setAnimation(new TextureRegion[] { reg }, delay);
+		this.setAnimation(new TextureRegion[] { reg }, delay);
 	}
 
 	public void setAnimation(TextureRegion[] reg, float delay) {
@@ -120,6 +126,15 @@ public class Entity {
 		return animation;
 	}
 
+	public Boundary getBound() {
+		return bound;
+	}
+
+	public void setBound(Boundary bound) {
+		this.bound = bound;
+	}
+
+	
 	public void dispose() {
 		this.body.getFixtureList().clear();
 		this.animation.dispose();
