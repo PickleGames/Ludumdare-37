@@ -63,10 +63,10 @@ public class FishGame extends ApplicationAdapter {
 		update(Gdx.graphics.getDeltaTime());
 
 		batch.setProjectionMatrix(hudCam.combined);
-		hud.stage.draw();
 		batch.begin();
 		gsm.render();
 		batch.end();
+		hud.renderHUD();
 
 		if (DEBUG) {
 			bdr.render(world, cam.combined.scl(B2DVars.PPM));
@@ -78,7 +78,6 @@ public class FishGame extends ApplicationAdapter {
 		cam.update();
 		gsm.update(dt);
 		world.step(dt, 2, 2);
-
 	}
 
 	@Override
