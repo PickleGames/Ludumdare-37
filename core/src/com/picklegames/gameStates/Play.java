@@ -171,6 +171,7 @@ public class Play extends GameState {
 		BodyDef bdef = CreateBox2D.createBodyDef(300, 200, BodyType.DynamicBody);
 		Shape shape = CreateBox2D.createCircleShape(fisho.getWidth() / 2);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
+		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD;
 
 		// set body to be fish body
 		fisho.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "fish"));
@@ -185,7 +186,8 @@ public class Play extends GameState {
 			Food f = new Food();
 			bdef = CreateBox2D.createBodyDef((float) Math.random() * 800, (float) Math.random() * 300, BodyType.DynamicBody);
 			shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
-			fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_WALL, B2DVars.BIT_PLAYER);
+			fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);
+			fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_WALL;
 			f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
 			f.getBody().setUserData(f);
 			foods.add(f);

@@ -35,7 +35,7 @@ public class Food extends Entity {
 
 	@Override
 	public void update(float dt) {
-
+		drop();
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class Food extends Entity {
 	}
 	
 	public void drop(){
-		//getBody().
+		getBody().setLinearVelocity((float) Math.random() * 2 -1, -.15f);
 	}
 
 }
