@@ -32,8 +32,8 @@ public class Fish extends Entity {
 
 		texR = TextureRegion.split(tex, 250, 250)[0];
 		setAnimation(texR, 1 / 3f);
-		setWidth(getWidth() * .65f);
-		setHeight(getHeight() * .65f);
+		setWidth(getWidth() * .45f);
+		setHeight(getHeight() * .45f);
 
 	}
 
