@@ -35,16 +35,17 @@ public class Fish extends Entity {
 	public void init() {
 
 		FishGame.res.loadTexture("images/fish1.png", "fish");
-		tex = FishGame.res.getTexture("fish");
+		setTex(FishGame.res.getTexture("fish"));
 
-		texR = TextureRegion.split(tex, 250, 250)[0];
-		setAnimation(texR, DELAY_STOP);
+		setTexR(TextureRegion.split(getTex(), 250, 250)[0]);
+		setAnimation(getTexR(), DELAY_STOP);
+		
 		setWidth(getWidth() * .45f);
 		setHeight(getHeight() * .45f);
 		
 
-		facing = 1;
-		target = new Vector2(300,200);
+		setFacing(1);
+		setTarget(new Vector2(300,200));
 
 	}
 
@@ -58,18 +59,18 @@ public class Fish extends Entity {
 		}
 		
 		if(Gdx.input.isButtonPressed(Buttons.LEFT)){
-			target.x = Gdx.input.getX();
-			target.y = Gdx.graphics.getHeight() - Gdx.input.getY();
+			getTarget().x = Gdx.input.getX();
+			getTarget().y = Gdx.graphics.getHeight() - Gdx.input.getY();
 		}
 		
-		if(getVelocity().x > 0 || getVelocity().y > 0){
+		if(getVelocity().x != 0 || getVelocity().y != 0){
 			getAnimation().setDelay(DELAY_MOVE);
 		}else{
 			getAnimation().setDelay(DELAY_STOP);
 		}
 		
-		System.out.println(target);
-		swimTo(target.x, target.y);
+		//System.out.println(target);
+		swimTo(getTarget().x, getTarget().y);
 		
 		//swim(); 
 	}
@@ -78,13 +79,13 @@ public class Fish extends Entity {
 	public void render(SpriteBatch batch) {
 
 		if (getBody().getLinearVelocity().x > 0) {
-			facing = 1;
+			setFacing(1);
 		} else if (getBody().getLinearVelocity().x < 0 ){
-			facing = -1;
+			setFacing(-1);
 		}
 		batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
 				getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(),
-				facing, 1, rotation);
+				getFacing(), 1, rotation);
 	}
 	
 	
@@ -100,14 +101,47 @@ public class Fish extends Entity {
 				getBody().setLinearVelocity(speed * (X / D), speed * (Y / D));			
 			}			
 		}else{
-			getBody().setLinearVelocity(0 , 0);	
+			chill();
+			//getBody().setLinearVelocity(0 , 0);	
 		}
 		
 	}
 	
 	
 	public void chill() {
-		getBody().setLinearVelocity((float) Math.random() - 0.5f, (float) Math.random() - 0.5f);
+		getBody().setLinearVelocity((float) 0, (float) 0);
+	}
+
+	public int getFacing() {
+		return facing;
+	}
+
+	public void setFacing(int facing) {
+		this.facing = facing;
+	}
+
+	public Texture getTex() {
+		return tex;
+	}
+
+	public void setTex(Texture tex) {
+		this.tex = tex;
+	}
+
+	public TextureRegion[] getTexR() {
+		return texR;
+	}
+
+	public void setTexR(TextureRegion[] texR) {
+		this.texR = texR;
+	}
+
+	public Vector2 getTarget() {
+		return target;
+	}
+
+	public void setTarget(Vector2 target) {
+		this.target = target;
 	}
 
 }
