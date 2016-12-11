@@ -31,11 +31,8 @@ public class Fish extends Entity {
 	private Texture tex;
 	private TextureRegion[] texR;
 	private float rotation = 0;
-	private float speed = 2;
+	private float speed = 1.5f;
 	private Stack<Vector2> targets;
-	
-	private Vector2 target;
-	
 	public Fish() {
 		super();
 	}
@@ -59,8 +56,6 @@ public class Fish extends Entity {
 		setFacing(1);
 		this.targets = new Stack<Vector2>();
 		
-		setTarget(new Vector2(300,200));
-
 	}
 
 
@@ -130,7 +125,7 @@ public class Fish extends Entity {
 				float D = (float) Math.sqrt(X * X + Y * Y);
 				if(getBound().isInBoundary((int)getWorldPosition().x, (int)getWorldPosition().y)){
 					//System.out.println("swim");
-					getBody().setLinearVelocity(speed * (X / D), speed * (Y / D));			
+					setVelocity(speed * (X / D), speed * (Y / D));			
 				}	
 				if(target.size() >= 50){
 					while(!target.isEmpty()){
@@ -150,11 +145,15 @@ public class Fish extends Entity {
 	}
 	
 	public void addTarget(float x, float y){
-		targets.add(new Vector2(x, y));
+		//Vector2 newT = new Vector2(x,y);
+		//if(!targets.isEmpty() && !targets.peek().equals(newT)){
+			targets.add(new Vector2(x, y));
+		//}
 	}
 	
 	public void chill() {
-		getBody().setLinearVelocity((float) 0, (float) 0);
+		setVelocity(new Vector2(0, 0));
+		//getBody().setLinearVelocity((float) 0, (float) 0);
 	}
 
 	public int getFacing() {
@@ -181,12 +180,5 @@ public class Fish extends Entity {
 		this.texR = texR;
 	}
 
-	public Vector2 getTarget() {
-		return target;
-	}
-
-	public void setTarget(Vector2 target) {
-		this.target = target;
-	}
 
 }

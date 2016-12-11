@@ -15,7 +15,6 @@ import com.picklegames.handlers.Boundary;
 public abstract class Entity {
 	private Body body;
 	private Animation animation;
-	private Vector2 velocity;
 	private float width;
 	private float height;
 	private boolean clicked;
@@ -30,7 +29,6 @@ public abstract class Entity {
 	public Entity(Body body, Boundary bound) {
 		this.body = body;
 		this.animation = new Animation();
-		this.velocity = new Vector2();
 		this.mouseVec = new Vector3();
 		this.bound = bound;
 		this.init();
@@ -91,9 +89,13 @@ public abstract class Entity {
 	}
 
 	public void setVelocity(Vector2 velocity) {
-		this.velocity = velocity;
+		getBody().setLinearVelocity(velocity);
 	}
 
+	public void setVelocity(float x, float y) {
+		getBody().setLinearVelocity(new Vector2(x, y));
+	}
+	
 	public Vector2 getPosition() {
 		return body.getPosition();
 	}

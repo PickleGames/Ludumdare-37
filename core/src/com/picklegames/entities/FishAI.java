@@ -22,8 +22,8 @@ public class FishAI extends Fish{
 
 		setFacing(1);
 		setTargets(new Stack<Vector2>());
-		setTarget(new Vector2(300,200));
 	}
 
+	
 	
 }

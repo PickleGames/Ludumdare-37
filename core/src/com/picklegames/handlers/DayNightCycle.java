@@ -29,4 +29,5 @@ public class DayNightCycle {
 		batch.draw(cycleTexR, (float)x, (float)y, (float)cycleCircle.getWidth()/2, (float)cycleCircle.getHeight()/2, cycleCircle.getWidth(), cycleCircle.getHeight(), 1.5f, 1.5f, rotation);
 	}
 	
+	
 }
