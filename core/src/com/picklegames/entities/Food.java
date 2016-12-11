@@ -46,7 +46,7 @@ public class Food extends Entity {
 	}
 	
 	public void drop(){
-		getBody().setLinearVelocity((float) Math.random() * 2 -1, -.15f);
+		getBody().setLinearVelocity((float) Math.random() * 2 -1, -.25f);
 	}
 
 }

@@ -52,14 +52,14 @@ public class Play extends GameState {
 	public void init() {
 		// TODO Auto-generated method stub
 
-		bound = new Boundary(50, 50, (int)(Gdx.graphics.getWidth() * .90f), (int)(Gdx.graphics.getHeight() * .60f));
-		
+		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .60f));
+
 		fishtankID = 1;
 		// load fish
 		fisho = new Fish();
 		createFishBody();
 		fisho.setBound(bound);
-		
+
 		// load font
 		font = new BitmapFont();
 		font.setColor(Color.GOLD);
@@ -84,7 +84,6 @@ public class Play extends GameState {
 
 		// load food
 		foods = new Array<Food>();
-		createFood();
 
 		// load and set world contact listener
 		cl = new MyContactListener();
@@ -95,42 +94,41 @@ public class Play extends GameState {
 		batch.end();
 
 		mousePos = new Vector3();
-		
-		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 10), 925, 400,  B2DVars.BIT_WALL, B2DVars.BIT_PLAYER);
+
+		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 10), 925, 400, B2DVars.BIT_WALL,
+				B2DVars.BIT_PLAYER);
 	}
 
 	@Override
 	public void handleInput() {
 		System.out.println(bound);
-		if(Gdx.input.isButtonPressed(Buttons.LEFT)){
+		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
 
 		}
 
 	}
 
+	float timeElapsed = 0;
+
 	@Override
 	public void update(float dt) {
+		timeElapsed += dt;
+
 		mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		cam.unproject(mousePos);
-		//System.out.println(mousePos);
+		// System.out.println(mousePos);
 		this.handleInput();
 		// update mouse position
 
 		// update fish
 		fisho.update(dt);
-		
-		
-		// dirty
 
+		// dirty
 		Array<Body> bodies = cl.getBodiesToRemove();
 		for (int i = 0; i < bodies.size; i++) {
 			Body b = bodies.get(i);
-			//food.removeIndex(i);
 			foods.removeValue((Food) b.getUserData(), true);
 			game.getWorld().destroyBody(b);
-//			fisho.setWidth(fisho.getWidth() * 1.15f);
-//			fisho.setHeight(fisho.getHeight() * 1.15f);
-
 		}
 		bodies.clear();
 
@@ -138,9 +136,16 @@ public class Play extends GameState {
 		for (Food f : foods) {
 			f.update(dt);
 		}
+		
+		if(timeElapsed > .75f){
+			if(foods.size < 20){
+				createFood();
+			}
+			timeElapsed = 0;
+		}
 
 		// update cycle rotation
-		dayNightRotation += 0.5f;
+		dayNightRotation += 0.05f;
 
 	}
 
@@ -182,22 +187,20 @@ public class Play extends GameState {
 		BodyDef bdef;
 		Shape shape;
 		FixtureDef fdef;
-		for (int i = 0; i < 15; i++) {
-			Food f = new Food();
-			bdef = CreateBox2D.createBodyDef((float) Math.random() * 800, (float) Math.random() * 300, BodyType.DynamicBody);
-			shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
-			fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);
-			fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_WALL;
-			f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
-			f.getBody().setUserData(f);
-			foods.add(f);
+		Food f = new Food();
+		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 800) + 20, (float) ( Math.random() * 100 )+ 300,
+				BodyType.DynamicBody);
+		shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
+		fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);
+		fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_WALL;
+		f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
+		f.getBody().setUserData(f);
+		foods.add(f);
 
-		}
 	}
 
 	@Override
 	public void dispose() {
-		
 
 	}
 
