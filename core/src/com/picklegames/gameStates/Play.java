@@ -95,7 +95,7 @@ public class Play extends GameState {
 
 		mousePos = new Vector3();
 		
-		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 10), 925, 400, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
+		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 10), 925, 400,  B2DVars.BIT_WALL, B2DVars.BIT_PLAYER);
 	}
 
 	@Override
