@@ -111,7 +111,7 @@ public class Play extends GameState {
 	public void handleInput() {
 		System.out.println(bound);
 		if(Gdx.input.isButtonPressed(Buttons.LEFT)){
-
+			fisho.addTarget(mousePos.x, mousePos.y);
 		}
 
 	}
@@ -126,7 +126,7 @@ public class Play extends GameState {
 
 		// update fish
 		fisho.update(dt);
-		
+		System.out.println("targets : " + fisho.getTargets().size());
 		for(FishAI f : fishAIs){
 			f.update(dt);
 		}
