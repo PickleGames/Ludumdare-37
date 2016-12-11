@@ -21,7 +21,7 @@ public abstract class GameState {
 		batch = game.getBatch();
 		cam = game.getCam();
 		hudCam = game.getHudCam();
-		init();
+		this.init();
 	}
 	
 	public abstract void init();

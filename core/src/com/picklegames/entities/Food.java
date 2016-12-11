@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.picklegames.game.FishGame;
+import com.picklegames.handlers.Boundary;
 
 // Miguel Garnica
 // Dec 10, 2016
@@ -18,8 +19,8 @@ public class Food extends Entity {
 		init();
 	}
 
-	public Food(Body body) {
-		super(body);
+	public Food(Body body, Boundary bound) {
+		super(body, bound);
 		init();
 	}
 
