@@ -49,8 +49,6 @@ public class Play extends GameState {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-
 		bound = new Boundary(50, 50, (int)(Gdx.graphics.getWidth() * .90f), (int)(Gdx.graphics.getHeight() * .60f));
 		
 		fishtankID = 1;
@@ -58,6 +56,7 @@ public class Play extends GameState {
 		fisho = new Fish();
 		createFishBody();
 		fisho.setBound(bound);
+		//fisho.target = fisho.getWorldPosition();
 		
 		// load font
 		font = new BitmapFont();

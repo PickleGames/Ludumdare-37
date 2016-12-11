@@ -10,5 +10,6 @@ public class DesktopLauncher {
 		new LwjglApplication(new FishGame(), config);
 		config.width = 1080;
 		config.height = 720;
+		config.resizable = false;
 	}
 }

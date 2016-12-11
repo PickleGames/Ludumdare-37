@@ -15,6 +15,9 @@ import com.picklegames.handlers.Boundary;
 // Dec 10, 2016
 public class Fish extends Entity {
 
+	public static final float DELAY_STOP = 1/3f;
+	public static final float DELAY_MOVE = 1/12f;
+	private int facing;
 	private Texture tex;
 	private TextureRegion[] texR;
 	private float rotation = 0;
@@ -35,11 +38,12 @@ public class Fish extends Entity {
 		tex = FishGame.res.getTexture("fish");
 
 		texR = TextureRegion.split(tex, 250, 250)[0];
-		setAnimation(texR, 1 / 3f);
+		setAnimation(texR, DELAY_STOP);
 		setWidth(getWidth() * .45f);
 		setHeight(getHeight() * .45f);
 		
-		target = new Vector2();
+		facing = 1;
+		target = new Vector2(200,300);
 	}
 
 
@@ -55,6 +59,13 @@ public class Fish extends Entity {
 			target.x = Gdx.input.getX();
 			target.y = Gdx.graphics.getHeight() - Gdx.input.getY();
 		}
+		
+		if(getVelocity().x > 0 || getVelocity().y > 0){
+			getAnimation().setDelay(DELAY_MOVE);
+		}else{
+			getAnimation().setDelay(DELAY_STOP);
+		}
+		
 		System.out.println(target);
 		swimTo(target.x, target.y);
 		
@@ -65,15 +76,13 @@ public class Fish extends Entity {
 	public void render(SpriteBatch batch) {
 
 		if (getBody().getLinearVelocity().x > 0) {
-			batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
-					getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(), 1,
-					1, rotation);
-		} else {
-			batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
-					getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(),
-					-1, 1, rotation);
+			facing = 1;
+		} else if (getBody().getLinearVelocity().x < 0 ){
+			facing = -1;
 		}
-
+		batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
+				getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(),
+				facing, 1, rotation);
 	}
 	
 	
