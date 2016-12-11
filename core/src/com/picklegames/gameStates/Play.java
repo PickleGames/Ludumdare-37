@@ -1,7 +1,6 @@
 package com.picklegames.gameStates;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
@@ -11,10 +10,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.utils.Array;
 import com.picklegames.entities.Fish;
 import com.picklegames.entities.Food;
 import com.picklegames.game.FishGame;
@@ -41,7 +42,7 @@ public class Play extends GameState {
 	private DayNightCycle dayNight;
 	private float dayNightRotation = 0;
 	private Boundary bound;
-	private List<Food> foods;
+	private Array<Food> foods;
 
 	public Play(GameStateManager gsm) {
 		super(gsm);
@@ -81,7 +82,7 @@ public class Play extends GameState {
 		bg.addImage(texR, 0, 0, hudCam.viewportWidth, hudCam.viewportHeight);
 
 		// load food
-		foods = new ArrayList<Food>();
+		foods = new Array<Food>();
 		createFood();
 
 		// load and set world contact listener
@@ -119,17 +120,18 @@ public class Play extends GameState {
 		
 		
 		// dirty
-//		Array<Body> bodies = cl.getBodiesToRemove();
-//		for (int i = 0; i < bodies.size; i++) {
-//			Body b = bodies.get(i);
-//			foods.remove(i);
-//			//food.removeValue((Food) b.getUserData(), true);
-//			game.getWorld().destroyBody(b);
-////			fisho.setWidth(fisho.getWidth() * 1.15f);
-////			fisho.setHeight(fisho.getHeight() * 1.15f);
-//
-//		}
-//		bodies.clear();
+
+		Array<Body> bodies = cl.getBodiesToRemove();
+		for (int i = 0; i < bodies.size; i++) {
+			Body b = bodies.get(i);
+			//food.removeIndex(i);
+			foods.removeValue((Food) b.getUserData(), true);
+			game.getWorld().destroyBody(b);
+//			fisho.setWidth(fisho.getWidth() * 1.15f);
+//			fisho.setHeight(fisho.getHeight() * 1.15f);
+
+		}
+		bodies.clear();
 
 		// update food
 		for (Food f : foods) {
@@ -150,9 +152,9 @@ public class Play extends GameState {
 
 		batch.setProjectionMatrix(cam.combined);
 		// render food
-//		for (Food f : foods) {
-//			f.render(batch);
-//		}
+		for (Food f : foods) {
+			f.render(batch);
+		}
 
 		// render fish
 		fisho.render(batch);
@@ -168,6 +170,7 @@ public class Play extends GameState {
 		BodyDef bdef = CreateBox2D.createBodyDef(300, 200, BodyType.DynamicBody);
 		Shape shape = CreateBox2D.createCircleShape(fisho.getWidth() / 2);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
+		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD;
 
 		// set body to be fish body
 		fisho.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "fish"));
@@ -182,9 +185,12 @@ public class Play extends GameState {
 			Food f = new Food();
 			bdef = CreateBox2D.createBodyDef((float) Math.random() * 800, (float) Math.random() * 300, BodyType.DynamicBody);
 			shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
-			fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_WALL, B2DVars.BIT_PLAYER);
+			fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);
+			fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_WALL;
 			f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
+			f.getBody().setUserData(f);
 			foods.add(f);
+
 		}
 	}
 

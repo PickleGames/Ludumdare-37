@@ -30,7 +30,7 @@ public final class CreateBox2D {
 		MassData md = new MassData();
 		md.mass = 1;
 		body.setMassData(md);
-
+		
 		// return body
 		return body;
 	}
@@ -81,7 +81,7 @@ public final class CreateBox2D {
 		FixtureDef fdef = new FixtureDef();
 		fdef.shape = cs;
 		fdef.filter.categoryBits = categoryBits;
-		fdef.filter.maskBits = maskBits;
+		fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_FOOD;
 		body.createFixture(fdef);
 
 	

@@ -35,7 +35,7 @@ public class Food extends Entity {
 
 	@Override
 	public void update(float dt) {
-
+		drop();
 	}
 
 	@Override
@@ -43,6 +43,10 @@ public class Food extends Entity {
 		if (getBody() != null) {
 			batch.draw(texR, getWorldPosition().x - getWidth() / 2, getWorldPosition().y - getHeight() / 2);
 		}
+	}
+	
+	public void drop(){
+		getBody().setLinearVelocity((float) Math.random() * 2 -1, -.15f);
 	}
 
 }

@@ -42,8 +42,10 @@ public class Fish extends Entity {
 		setWidth(getWidth() * .45f);
 		setHeight(getHeight() * .45f);
 		
+
 		facing = 1;
-		target = new Vector2(200,300);
+		target = new Vector2(300,200);
+
 	}
 
 
@@ -69,7 +71,7 @@ public class Fish extends Entity {
 		System.out.println(target);
 		swimTo(target.x, target.y);
 		
-		//swim();
+		//swim(); 
 	}
 
 	@Override
