@@ -29,24 +29,48 @@ public class Fish extends Entity {
 		tex = FishGame.res.getTexture("fish");
 
 		texR = TextureRegion.split(tex, 250, 250)[0];
-		setAnimation(texR, 1 / 12);
+		setAnimation(texR, 1 / 3f);
+		setWidth(getWidth() * .65f);
+		setHeight(getHeight() * .65f);
 
 	}
+
+	float timer;
+	float speedX = 5;
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 		getAnimation().update(dt);
+		timer += dt;
+		if (timer > 1f) {
+			speedX *= -1;
+			timer = 0;
+			
+		}
+		swim();
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
 
-		batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
-				getWorldPosition().y - getHeight() / 2, getWidth(), getHeight());
+		if (getBody().getLinearVelocity().x > 0) {
+			batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
+					getWorldPosition().y - getHeight() / 2, getWidth(), getHeight());
+		} else {
+			batch.draw(getAnimation().getFrame(), getWorldPosition().x + getWidth() / 2,
+					getWorldPosition().y - getHeight() / 2, 0, 0, getWidth(), getHeight(), -1, 1,
+					getBody().getAngle());
+		}
+
+	}
+	
+	public void chill(){
+		getBody().setLinearVelocity((float) Math.random() - 0.5f, (float) Math.random() - 0.5f);
 	}
 
 	public void swim() {
 
+		getBody().setLinearVelocity(speedX, (float) (Math.random() * 2 - 1));
 	}
 }

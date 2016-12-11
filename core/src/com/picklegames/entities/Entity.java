@@ -40,7 +40,7 @@ public class Entity {
 
 	public void update(float dt) {
 		this.animation.update(dt);
-		this.body.setLinearVelocity(this.velocity);
+		//this.body.setLinearVelocity(this.velocity);
 	}
 	
 	public void render(SpriteBatch batch) {

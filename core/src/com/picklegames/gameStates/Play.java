@@ -48,7 +48,7 @@ public class Play extends GameState{
 	
 	public void createFishBody(){
 		
-		BodyDef bdef = CreateBox2D.createBodyDef(300, 300, BodyType.DynamicBody);
+		BodyDef bdef = CreateBox2D.createBodyDef(500, 300, BodyType.DynamicBody);
 		Shape shape = CreateBox2D.createCircleShape(fisho.getWidth() / 2);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
 		
