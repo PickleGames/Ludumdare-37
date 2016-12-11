@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 import com.picklegames.entities.Fish;
 import com.picklegames.entities.Food;
@@ -24,9 +24,8 @@ import com.picklegames.handlers.MyContactListener;
 import com.picklegames.managers.GameStateManager;
 
 // Miguel Garnica
-// Dec 9, 2016
-public class Play extends GameState {
-
+// Dec 10, 2016
+public class Level2 extends GameState {
 	private Fish fisho;
 	private BitmapFont font;
 	private Vector3 mousePos;
@@ -40,7 +39,7 @@ public class Play extends GameState {
 
 	private Array<Food> food;
 
-	public Play(GameStateManager gsm) {
+	public Level2(GameStateManager gsm) {
 		super(gsm);
 	}
 
@@ -84,12 +83,11 @@ public class Play extends GameState {
 		game.getWorld().setContactListener(cl);
 
 		batch.begin();
-		dayNight = new DayNightCycle(20, 180, batch);
+		dayNight = new DayNightCycle(20, 100, batch);
 		batch.end();
 
 		mousePos = new Vector3();
-		
-		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 10), 925, 400, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
+
 	}
 
 	@Override
@@ -113,7 +111,7 @@ public class Play extends GameState {
 		for (int i = 0; i < bodies.size; i++) {
 			Body b = bodies.get(i);
 			food.removeIndex(i);
-			//food.removeValue((Food) b.getUserData(), true);
+			// food.removeValue((Food) b.getUserData(), true);
 			game.getWorld().destroyBody(b);
 			fisho.setWidth(fisho.getWidth() * 1.15f);
 			fisho.setHeight(fisho.getHeight() * 1.15f);
@@ -127,7 +125,7 @@ public class Play extends GameState {
 		}
 
 		// update cycle rotation
-		dayNightRotation += 0.5f;
+		dayNightRotation += 0.1f;
 
 	}
 
@@ -170,7 +168,8 @@ public class Play extends GameState {
 		FixtureDef fdef;
 		for (int i = 0; i < 15; i++) {
 			Food f = new Food();
-			bdef = CreateBox2D.createBodyDef((float) Math.random() * 800, (float) Math.random() * 300, BodyType.DynamicBody);
+			bdef = CreateBox2D.createBodyDef((float) Math.random() * 800, (float) Math.random() * 300,
+					BodyType.DynamicBody);
 			shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
 			fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_WALL, B2DVars.BIT_PLAYER);
 			f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
@@ -183,5 +182,4 @@ public class Play extends GameState {
 		// TODO Auto-generated method stub
 
 	}
-
 }

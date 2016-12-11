@@ -24,9 +24,8 @@ import com.picklegames.handlers.MyContactListener;
 import com.picklegames.managers.GameStateManager;
 
 // Miguel Garnica
-// Dec 9, 2016
-public class Play extends GameState {
-
+// Dec 10, 2016
+public class Level1 extends GameState{
 	private Fish fisho;
 	private BitmapFont font;
 	private Vector3 mousePos;
@@ -40,7 +39,7 @@ public class Play extends GameState {
 
 	private Array<Food> food;
 
-	public Play(GameStateManager gsm) {
+	public Level1(GameStateManager gsm) {
 		super(gsm);
 	}
 
@@ -84,12 +83,11 @@ public class Play extends GameState {
 		game.getWorld().setContactListener(cl);
 
 		batch.begin();
-		dayNight = new DayNightCycle(20, 180, batch);
+		dayNight = new DayNightCycle(20, 100, batch);
 		batch.end();
 
 		mousePos = new Vector3();
 		
-		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 10), 925, 400, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
 	}
 
 	@Override
@@ -127,7 +125,7 @@ public class Play extends GameState {
 		}
 
 		// update cycle rotation
-		dayNightRotation += 0.5f;
+		dayNightRotation += 0.1f;
 
 	}
 
@@ -183,5 +181,4 @@ public class Play extends GameState {
 		// TODO Auto-generated method stub
 
 	}
-
 }
