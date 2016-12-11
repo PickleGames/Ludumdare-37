@@ -50,9 +50,7 @@ public class Play extends GameState {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-
-		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .60f));
+		bound = new Boundary(50, 50, (int)(Gdx.graphics.getWidth() * .90f), (int)(Gdx.graphics.getHeight() * .60f));
 
 		fishtankID = 1;
 		// load fish
