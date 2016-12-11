@@ -1,5 +1,7 @@
 package com.picklegames.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -37,6 +39,7 @@ public class Fish extends Entity {
 
 	float timer;
 	float speedX = 5;
+	float rotation = 0;
 
 	@Override
 	public void update(float dt) {
@@ -46,7 +49,10 @@ public class Fish extends Entity {
 		if (timer > 1f) {
 			speedX *= -1;
 			timer = 0;
-			
+
+		}
+		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+			rotation += 10;
 		}
 		swim();
 	}
@@ -56,16 +62,17 @@ public class Fish extends Entity {
 
 		if (getBody().getLinearVelocity().x > 0) {
 			batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
-					getWorldPosition().y - getHeight() / 2, getWidth(), getHeight());
+					getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(), 1,
+					1, rotation);
 		} else {
-			batch.draw(getAnimation().getFrame(), getWorldPosition().x + getWidth() / 2,
-					getWorldPosition().y - getHeight() / 2, 0, 0, getWidth(), getHeight(), -1, 1,
-					getBody().getAngle());
+			batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
+					getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(),
+					-1, 1, rotation);
 		}
 
 	}
-	
-	public void chill(){
+
+	public void chill() {
 		getBody().setLinearVelocity((float) Math.random() - 0.5f, (float) Math.random() - 0.5f);
 	}
 
