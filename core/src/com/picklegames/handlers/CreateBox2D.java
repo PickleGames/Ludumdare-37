@@ -30,7 +30,7 @@ public final class CreateBox2D {
 		MassData md = new MassData();
 		md.mass = 1;
 		body.setMassData(md);
-
+		
 		// return body
 		return body;
 	}

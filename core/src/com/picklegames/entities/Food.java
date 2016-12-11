@@ -43,5 +43,9 @@ public class Food extends Entity {
 			batch.draw(texR, getWorldPosition().x - getWidth() / 2, getWorldPosition().y - getHeight() / 2);
 		}
 	}
+	
+	public void drop(){
+		//getBody().
+	}
 
 }

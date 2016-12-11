@@ -112,8 +112,8 @@ public class Play extends GameState {
 		Array<Body> bodies = cl.getBodiesToRemove();
 		for (int i = 0; i < bodies.size; i++) {
 			Body b = bodies.get(i);
-			food.removeIndex(i);
-			//food.removeValue((Food) b.getUserData(), true);
+			//food.removeIndex(i);
+			food.removeValue((Food) b.getUserData(), true);
 			game.getWorld().destroyBody(b);
 			fisho.setWidth(fisho.getWidth() * 1.15f);
 			fisho.setHeight(fisho.getHeight() * 1.15f);
@@ -174,6 +174,7 @@ public class Play extends GameState {
 			shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
 			fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_WALL, B2DVars.BIT_PLAYER);
 			f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
+			f.getBody().setUserData(f);
 			food.add(f);
 		}
 	}
