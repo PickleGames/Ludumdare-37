@@ -1,6 +1,7 @@
 package com.picklegames.gameStates;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.picklegames.entities.Fish;
+import com.picklegames.entities.FishAI;
 import com.picklegames.entities.Food;
 import com.picklegames.game.FishGame;
 import com.picklegames.handlers.B2DVars;
@@ -32,6 +34,8 @@ import com.picklegames.managers.GameStateManager;
 public class Play extends GameState {
 
 	private Fish fisho;
+	private List<FishAI> fishAIs;
+	
 	private BitmapFont font;
 	private Vector3 mousePos;
 	private MyContactListener cl;
@@ -52,12 +56,20 @@ public class Play extends GameState {
 	public void init() {
 		bound = new Boundary(50, 50, (int)(Gdx.graphics.getWidth() * .90f), (int)(Gdx.graphics.getHeight() * .60f));
 
+		fishAIs = new ArrayList<FishAI>();	
 		fishtankID = 1;
 		// load fish
 		fisho = new Fish();
 		createFishBody();
 		fisho.setBound(bound);
-
+		
+		//fisho.target = fisho.getWorldPosition();
+		
+		for(int i = 0; i < 10; i++){
+			fishAIs.add(createFishAI((int)(Math.random() * 500), (int)(Math.random() * 400)));
+		}
+		
+		
 		// load font
 		font = new BitmapFont();
 		font.setColor(Color.GOLD);
@@ -120,6 +132,11 @@ public class Play extends GameState {
 
 		// update fish
 		fisho.update(dt);
+		
+		for(FishAI f : fishAIs){
+			f.update(dt);
+		}
+
 
 		// dirty
 		Array<Body> bodies = cl.getBodiesToRemove();
@@ -162,13 +179,28 @@ public class Play extends GameState {
 
 		// render fish
 		fisho.render(batch);
-
+		for(FishAI f : fishAIs){
+			f.render(batch);
+		}
+		
 		if (fisho.isClicked()) {
 			font.draw(batch, "STOP!!", fisho.getWorldPosition().x - fisho.getWidth() / 2,
 					fisho.getWorldPosition().y + fisho.getHeight());
 		}
 	}
 
+	public FishAI createFishAI(int x, int y){
+		FishAI fish = new FishAI();
+		BodyDef bdef = CreateBox2D.createBodyDef(x, y, BodyType.DynamicBody);
+		Shape shape = CreateBox2D.createCircleShape(fish.getWidth() / 2);
+		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
+		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD;
+
+		// set body to be fish body
+		fish.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "fish"));
+		return fish;
+	}
+	
 	public void createFishBody() {
 
 		BodyDef bdef = CreateBox2D.createBodyDef(300, 200, BodyType.DynamicBody);

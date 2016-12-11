@@ -87,7 +87,7 @@ public abstract class Entity {
 	}
 
 	public Vector2 getVelocity() {
-		return velocity;
+		return getBody().getLinearVelocity();
 	}
 
 	public void setVelocity(Vector2 velocity) {
