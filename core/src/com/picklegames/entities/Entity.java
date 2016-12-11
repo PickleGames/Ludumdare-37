@@ -1,9 +1,13 @@
 package com.picklegames.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.picklegames.game.FishGame;
 import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.B2DVars;
 
@@ -13,21 +17,25 @@ public class Entity {
 	private Vector2 velocity;
 	private float width;
 	private float height;
+	private boolean clicked;
 	
-	public Entity(){
+	private Vector3 mouseVec;
+
+	public Entity() {
 		this(null);
 	}
-	
-	public Entity(Body body){
+
+	public Entity(Body body) {
 		this.body = body;
 		this.animation = new Animation();
 		this.velocity = new Vector2();
+		this.mouseVec = new Vector3();
 	}
-	
-	public void setBody(Body body){
+
+	public void setBody(Body body) {
 		this.body = body;
 	}
-	
+
 	public void setAnimation(TextureRegion reg, float delay) {
 		setAnimation(new TextureRegion[] { reg }, delay);
 	}
@@ -40,9 +48,21 @@ public class Entity {
 
 	public void update(float dt) {
 		this.animation.update(dt);
-		//this.body.setLinearVelocity(this.velocity);
+		// this.body.setLinearVelocity(this.velocity);
+		mouseVec.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+		FishGame.hudCam.unproject(mouseVec);
+		
+		if (Gdx.input.isButtonPressed(Buttons.LEFT) && mouseVec.x > getWorldPosition().x - width / 2
+				&& mouseVec.x  < getWorldPosition().x + width / 2
+				&& mouseVec.y  > getWorldPosition().y - height / 2
+				&& mouseVec.y  < getWorldPosition().y + height / 2) {
+			clicked = true;
+
+		} else {
+			clicked = false;
+		}
 	}
-	
+
 	public void render(SpriteBatch batch) {
 		try {
 			if (animation.getFrame() != null) {
@@ -52,11 +72,14 @@ public class Entity {
 				batch.end();
 			}
 		} catch (NullPointerException e) {
-			//System.out.println(e.getMessage());
+			// System.out.println(e.getMessage());
 		}
 	}
-	
-	
+
+	public boolean isClicked(){
+		return clicked;
+	}
+
 	public Vector2 getVelocity() {
 		return velocity;
 	}
@@ -64,12 +87,12 @@ public class Entity {
 	public void setVelocity(Vector2 velocity) {
 		this.velocity = velocity;
 	}
-	
-	public Vector2 getPosition(){
+
+	public Vector2 getPosition() {
 		return body.getPosition();
 	}
-	
-	public Vector2 getWorldPosition(){
+
+	public Vector2 getWorldPosition() {
 		return body.getPosition().scl(B2DVars.PPM);
 	}
 
@@ -97,10 +120,9 @@ public class Entity {
 		return animation;
 	}
 
-	public void dispose(){
+	public void dispose() {
 		this.body.getFixtureList().clear();
 		this.animation.dispose();
 	}
-	
-	
+
 }
