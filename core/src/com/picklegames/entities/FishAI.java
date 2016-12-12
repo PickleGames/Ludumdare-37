@@ -7,12 +7,26 @@ import com.badlogic.gdx.math.Vector2;
 import com.picklegames.game.FishGame;
 
 public class FishAI extends Fish {
+	public FishAI(Fish.FishState state) {
+		super(state);
+	}
 
+	public enum FishState{
+		ALIVE, DEAD
+	}
 	private Food foodTarget;
 
+	
 	public void init() {
 		FishGame.res.loadTexture("images/fish2.png", "fish2");
-		setTex(FishGame.res.getTexture("fish2"));
+		FishGame.res.loadTexture("images/fish2_dead.png", "fish2_dead");
+		
+		System.out.println(fishState);
+		if(getFishState().equals(Fish.FishState.ALIVE)){
+			setTex(FishGame.res.getTexture("fish2"));
+		}else{
+			setTex(FishGame.res.getTexture("fish2_dead"));
+		}
 
 		setTexR(TextureRegion.split(getTex(), 250, 250)[0]);
 		setAnimation(getTexR(), DELAY_STOP);
