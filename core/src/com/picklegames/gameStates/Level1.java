@@ -269,16 +269,16 @@ public class Level1 extends GameState{
 		}
 		
 		
-//		if(isLevelFinish){
-//			FlashScreen.day = 2;
-//			gsm.setState(GameStateManager.FLASH);
-//		}
-//		
-//		if(fisho.getHealth() <= 0){
-//			GameStateManager.level = GameStateManager.LEVEL1;
-//			gsm.setState(GameStateManager.DEAD);
-//			
-//		}
+		if(isLevelFinish){
+			FlashScreen.day = 2;
+			gsm.setState(GameStateManager.FLASH);
+		}
+		
+		if(fisho.getHealth() <= 0){
+			GameStateManager.level = GameStateManager.LEVEL1;
+			gsm.setState(GameStateManager.DEAD);
+			
+		}
 		
 		
 		hud.update(dt);
