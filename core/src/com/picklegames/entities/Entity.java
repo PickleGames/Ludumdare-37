@@ -100,6 +100,11 @@ public abstract class Entity {
 	public Vector2 getWorldPosition() {
 		return body.getPosition().scl(B2DVars.PPM);
 	}
+	
+	public void setWorldPosition(float x, float y, float angle) {
+		body.setTransform(x, y, angle);
+		//return body.getPosition().scl(B2DVars.PPM);
+	}
 
 	public float getWidth() {
 		return width;

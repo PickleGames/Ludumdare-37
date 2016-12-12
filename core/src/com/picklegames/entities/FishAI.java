@@ -59,6 +59,7 @@ public class FishAI extends Fish {
 		setTargets(new Stack<Vector2>());
 		
 		setMAX_HP(100);
+		setMAX_ENERGY(100);
 		setMAX_SPEED(1.5f);
 		setHealth(getMAX_HP() / 2);
 		setSpeed(getMAX_SPEED());
@@ -86,10 +87,10 @@ public class FishAI extends Fish {
 			currentDialouge = "";
 		}
 		
-		System.out.println("food target " + getTargets().size());
-		if(!getTargets().isEmpty()){
-			System.out.println("food target " + getTargets().peek());			
-		}
+//		System.out.println("food target " + getTargets().size());
+//		if(!getTargets().isEmpty()){
+//			System.out.println("food target " + getTargets().peek());			
+//		}
 		
 		if(getFishState() == FishState.DEAD && !isDead){
 			setTex(FishGame.res.getTexture("fish2_dead"));
@@ -100,6 +101,7 @@ public class FishAI extends Fish {
 			isDead = true;
 		}
 		
+		System.out.println("target " + foodTarget);
 	}
 
 
@@ -126,10 +128,15 @@ public class FishAI extends Fish {
 		if(this.foodTarget == null){
 			this.foodTarget = target;
 		}
-		if (!this.foodTarget.equals(target)) {
-			this.foodTarget = target;
-			System.out.println(foodTarget);
-			addTarget(foodTarget.getWorldPosition().x, foodTarget.getWorldPosition().y);
+		if (this.foodTarget.equals(target) && !isTargetReach()) {
+//			System.out.println(this.foodTarget + " " + target);
+//			addTarget(foodTarget.getWorldPosition().x, foodTarget.getWorldPosition().y);
+		}else{
+			if(isTargetReach()){
+				this.foodTarget = target;
+			}
+			//setTargetReach(true);
 		}
+		addTarget(foodTarget.getWorldPosition().x, foodTarget.getWorldPosition().y);
 	}
 }

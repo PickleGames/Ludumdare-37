@@ -29,6 +29,8 @@ public class Fish extends Entity {
 
 	private float MAX_SPEED;
 	private float MAX_HP;
+	private float MAX_ENERGY;
+
 	private float health = 0;
 	private float energy = 100;
 
@@ -68,11 +70,27 @@ public class Fish extends Entity {
 		
 		setMAX_HP(30); 
 		setMAX_SPEED(1.5f);
+		setMAX_ENERGY(100);
 		health = MAX_HP;
-		setSpeed(MAX_SPEED);
+		energy = MAX_ENERGY;
+		speed = MAX_SPEED;
 
 	}
+	public void setMAX_HP(float mAX_HP) {
+		MAX_HP = mAX_HP;
+	}
+	public float getMAX_HP() {
+		return MAX_HP;
+	}
+	
+	public float getMAX_ENERGY() {
+		return MAX_ENERGY;
+	}
 
+	public void setMAX_ENERGY(float mAX_ENERGY) {
+		MAX_ENERGY = mAX_ENERGY;
+	}
+	
 	public float getMAX_SPEED() {
 		return MAX_SPEED;
 	}
@@ -81,7 +99,9 @@ public class Fish extends Entity {
 		MAX_SPEED = mAX_SPEED;
 	}
 
-	float timeElap = 0;;
+	float timeElap = 0;
+
+
 
 	@Override
 	public void update(float dt) {
@@ -101,7 +121,7 @@ public class Fish extends Entity {
 		//System.out.println(target);
 		//swimTo(getTarget().x, getTarget().y);
 		if(fishState == FishState.ALIVE){
-			System.out.println("im alive");
+			//System.out.println("im alive");
 			swimTo(targets);
 		}
 		//swim(); 
@@ -113,12 +133,15 @@ public class Fish extends Entity {
 			}
 			timeElap = 0;
 		}
-		
-		if(energy < 20){
+//		System.out.println("health " + health);
+//		System.out.println("energy " + energy);
+//		System.out.println("max energy " + MAX_ENERGY);
+//		System.out.println("max energy % " + (MAX_ENERGY * .2f));
+		if(energy < MAX_ENERGY * .20f){
 			health -= .05f;
 		}
 		
-		setSpeed((energy/100) * MAX_SPEED + .5f);
+		setSpeed((energy/MAX_ENERGY) * MAX_SPEED + .5f);
 	}
  
 	@Override
@@ -134,12 +157,24 @@ public class Fish extends Entity {
 				getFacing(), 1, rotation);
 
 	}
+	private boolean isTargetReach;;
+	
+	public boolean isTargetReach() {
+		return isTargetReach;
+	}
 
+	public void setTargetReach(boolean isTargetReach) {
+		this.isTargetReach = isTargetReach;
+	}
+
+	private boolean isReach(Vector2 tar){
+		return (tar.x - 5 < getWorldPosition().x && tar.x + 5 > getWorldPosition().x
+				  && tar.y - 5 < getWorldPosition().y && tar.y + 5 > getWorldPosition().y);
+	}
 	private void swimTo(Stack<Vector2> target) {
 		if (!target.isEmpty() && fishState == FishState.ALIVE) {
 			Vector2 tar = target.peek();
-			if (!(tar.x - 5 < getWorldPosition().x && tar.x + 5 > getWorldPosition().x
-				  && tar.y - 5 < getWorldPosition().y && tar.y + 5 > getWorldPosition().y)) {
+			if (!isReach(tar)) {
 				float X = (tar.x - getWorldPosition().x);
 				float Y = (tar.y - getWorldPosition().y);
 				float D = (float) Math.sqrt(X * X + Y * Y);
@@ -153,12 +188,13 @@ public class Fish extends Entity {
 					}
 					target.push(tar);
 				}
+				isTargetReach = false;
 			} else {
 				while (!target.isEmpty()) {
 					target.pop();
 				}
+				isTargetReach = true;
 			}
-
 		} else {
 			chill();
 		}
@@ -253,13 +289,6 @@ public class Fish extends Entity {
 
 	public void setHealth(float health) {
 		this.health = health;
-	}
-
-	public void setMAX_HP(float mAX_HP) {
-		MAX_HP = mAX_HP;
-	}
-	public float getMAX_HP() {
-		return MAX_HP;
 	}
 
 	public float getEnergy() {

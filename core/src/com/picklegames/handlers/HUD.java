@@ -27,7 +27,7 @@ public class HUD {
 	float a;
 	public void update(float dt){
 		energy = 180 * (fish.getEnergy() / 100);
-		if(fish.getEnergy() < 20){
+		if(fish.getEnergy() < fish.getMAX_ENERGY() * .2f){
 			flashy.setAlpha(1 - (fish.getHealth() / fish.getMAX_HP()));
 		}
 	}

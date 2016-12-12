@@ -61,7 +61,7 @@ public class Level1 extends GameState{
 	@Override
 	public void init() {
 		
-		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
+		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .95f), (int) (Gdx.graphics.getHeight() * .70f));
 		fishAIs = new ArrayList<FishAI>();
 
 		// load fish
@@ -193,12 +193,12 @@ public class Level1 extends GameState{
 			}
 			
 			if (foods.size > 0) {
-				if (f.getTargets().isEmpty()) {
+				//if (f.getTargets().isEmpty()) {
 					Food foo = getRandFood();
 					if(foo != null){
 						f.addFoodTarget(foo);						
 					}
-				}
+				//}
 			}
 		}
 
@@ -216,7 +216,7 @@ public class Level1 extends GameState{
 			Body fishb = bodiesFish.get(i);
 			Fish fish = (Fish)fishb.getUserData();
 			
-			if (fish.getEnergy() + 5 < 100 ) {
+			if (fish.getEnergy() + 5 < fish.getMAX_ENERGY() ) {
 				fish.setEnergy(fish.getEnergy() + 5);
 			}
 			if (fish.getHealth() + 5 < fish.getMAX_HP()) {
@@ -248,15 +248,15 @@ public class Level1 extends GameState{
 		}
 
 		// update cycle rotation
-		dayNightRotation += 0.08f;
+		dayNightRotation += dt * 5.35;
 
-		//GOOD ENOUGH
-		if(dayNightRotation < 180){
-			if(alpha + 0.00035 < 1){
-				alpha += 0.00035f;
+		// VERY GUD MATH
+		if (dayNightRotation < 180) {
+			if(alpha < 1){
+				alpha = (dayNightRotation / 180);
 			}
-		}else{
-			alpha -= 0.0003f;
+		} else {
+			alpha = 1 - ((dayNightRotation - 180)  / 180);
 		}
 		///////////
 		

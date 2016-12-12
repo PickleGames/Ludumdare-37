@@ -62,7 +62,7 @@ public class Level3 extends GameState {
 	@Override
 	public void init() {
 
-		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
+		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .95f), (int) (Gdx.graphics.getHeight() * .70f));
 		fishAIs = new Array<FishAI>();
 		bones = new ArrayList<Bone>();
 
@@ -73,9 +73,10 @@ public class Level3 extends GameState {
 		createFishBody();
 		fisho.setBound(bound);
 		fisho.addTarget(300, 200);
+		fisho.setMAX_SPEED(0.5f);
 		// fisho.target = fisho.getWorldPosition();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 15; i++) {
 			fishAIs.add(
 					createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.DEAD));
 		}
@@ -212,7 +213,7 @@ public class Level3 extends GameState {
 				if (fish.isClicked()) {
 					// fish.dispose();
 					bones.add(createBone(fish.getWorldPosition().x, fish.getWorldPosition().y));
-					if (fisho.getEnergy() + 5 < 100) {
+					if (fisho.getEnergy() + 5 < fisho.getMAX_ENERGY()) {
 						fisho.setEnergy(fisho.getEnergy() + 5);
 					}
 					fishAIs.removeValue(fish, false);
@@ -236,30 +237,21 @@ public class Level3 extends GameState {
 		// }
 
 		// update cycle rotation
-		dayNightRotation += 0.08f;
+		dayNightRotation += dt * 5.35;
 
 		// GOOD ENOUGH
 		if (dayNightRotation < 180) {
-			alpha += 0.0003f;
+			if(alpha < 1){
+				alpha = (dayNightRotation / 180);
+			}
 		} else {
-			alpha -= 0.0003f;
+			alpha = 1 - ((dayNightRotation - 180)  / 180);
 		}
 		///////////
 
 		System.out.println("alpha : " + alpha);
 		trans.setAlpha(alpha);
 
-		// update cycle rotation
-		dayNightRotation += 0.04f;
-
-		// GOOD ENOUGH
-		if (dayNightRotation < 180) {
-			if (alpha + 0.00016 < 1) {
-				alpha += 0.00016f;
-			}
-		} else {
-			alpha -= 0.00016f;
-		}
 		///////////
 
 		System.out.println("alpha : " + alpha);
