@@ -10,18 +10,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.picklegames.entities.FishAI.FishState;
 import com.picklegames.game.FishGame;
 import com.picklegames.handlers.Boundary;
 
 // Miguel Garnica
 // Dec 10, 2016
 public class Fish extends Entity {
-	public enum FishState {
-		ALIVE, DEAD
-	}
 
-	public FishState fishState;
+	public int fishState;
 
 	public static final float DELAY_STOP = 1 / 3f;
 	public static final float DELAY_MOVE = 1 / 12f;
@@ -32,17 +28,17 @@ public class Fish extends Entity {
 	private float speed = 1.5f;
 	private Stack<Vector2> targets;
 
-	public final float MAX_SPEED = 1.5f;
-	public final float MAX_HP = 200;
+	private float MAX_SPEED ;
+	private float MAX_HP ;
 	private float health = 0;
 	private float energy = 100;
 
 	private BitmapFont font = new BitmapFont();
 
-	public Fish(FishState state) {
+	public Fish(int state) {
 
 		super();
-		this.fishState = FishState.ALIVE;
+		this.fishState = state;
 		init();
 
 	}
@@ -72,10 +68,20 @@ public class Fish extends Entity {
 
 		setFacing(1);
 		this.targets = new Stack<Vector2>();
-
+		
+		setMAX_HP(200); 
+		setMAX_SPEED(1.5f);
 		health = MAX_HP;
 		setSpeed(MAX_SPEED);
 
+	}
+
+	public float getMAX_SPEED() {
+		return MAX_SPEED;
+	}
+
+	public void setMAX_SPEED(float mAX_SPEED) {
+		MAX_SPEED = mAX_SPEED;
 	}
 
 	float timeElap = 0;;
@@ -206,11 +212,11 @@ public class Fish extends Entity {
 		// getBody().setLinearVelocity((float) 0, (float) 0);
 	}
 
-	public FishState getFishState() {
+	public int getFishState() {
 		return fishState;
 	}
 
-	public void setFishState(FishState fishState) {
+	public void setFishState(int fishState) {
 		this.fishState = fishState;
 	}
 
@@ -254,6 +260,9 @@ public class Fish extends Entity {
 		this.health = health;
 	}
 
+	public void setMAX_HP(float mAX_HP) {
+		MAX_HP = mAX_HP;
+	}
 	public float getMAX_HP() {
 		return MAX_HP;
 	}
