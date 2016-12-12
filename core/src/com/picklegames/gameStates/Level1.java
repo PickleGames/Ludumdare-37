@@ -47,7 +47,8 @@ public class Level1 extends GameState{
 	private float dayNightRotation = 0;
 	private Boundary bound;
 	private Array<Food> foods;
-
+	private boolean isLevelFinish = false;
+	
 	public Level1(GameStateManager gsm) {
 		super(gsm);
 	}
@@ -174,9 +175,6 @@ public class Level1 extends GameState{
 			Body fishb = bodiesFish.get(i);
 			Fish fish = (Fish)fishb.getUserData();
 			
-			if (fish.getHealth() < fish.getMAX_HP() + 5) {
-				fish.setHealth(fish.getHealth() + 5);
-			}
 			if (fish.getEnergy() < 100 + 5) {
 				fish.setEnergy(fish.getEnergy() + 5);
 			}
@@ -200,8 +198,8 @@ public class Level1 extends GameState{
 		}
 
 		//System.out.println("update 2 food size : " + foods.size);
-		if (timeElapsed > .75f) {
-			if (foods.size < 10) {
+		if (timeElapsed > .3f) {
+			if (foods.size < 20) {
 				createFood();
 			}
 			timeElapsed = 0;
@@ -209,6 +207,15 @@ public class Level1 extends GameState{
 
 		// update cycle rotation
 		dayNightRotation += 0.05f;
+		System.out.println(dayNightRotation);
+		if(dayNightRotation >= 358){
+			isLevelFinish = true;
+		}
+		
+		
+		if(isLevelFinish){
+			gsm.setState(GameStateManager.FLASH);
+		}
 
 	}
 
@@ -278,7 +285,7 @@ public class Level1 extends GameState{
 		FixtureDef fdef;
 		Food f = new Food();
 		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 600) + 100, 
-										 (float) (Math.random() * 100) + 330,
+										 (float) (Math.random() * 100) + 400,
 				BodyType.DynamicBody);
 		shape = CreateBox2D.createCircleShape(f.getWidth() /2 );
 		fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);

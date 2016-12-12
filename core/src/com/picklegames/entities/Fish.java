@@ -29,10 +29,10 @@ public class Fish extends Entity {
 	private Texture tex;
 	private TextureRegion[] texR;
 	private float rotation = 0;
-	private float speed = 2;
+	private float speed = 1.5f;
 	private Stack<Vector2> targets;
 
-	public final float MAX_SPEED = 2f;
+	public final float MAX_SPEED = 1.5f;
 	public final float MAX_HP = 200;
 	private float health = 0;
 	private float energy = 100;

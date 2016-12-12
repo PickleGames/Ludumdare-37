@@ -49,7 +49,7 @@ public class Food extends Entity {
 		}
 	}
 	
-	float veloY = -.45f;
+	float veloY = -.6f;
 	public void drop(){
 		if(getWorldPosition().y < 50){
 			veloY = 0;
