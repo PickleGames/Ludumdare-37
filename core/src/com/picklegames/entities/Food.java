@@ -38,13 +38,14 @@ public class Food extends Entity {
 
 	@Override
 	public void update(float dt) {
+		//super.update(dt);
 		drop();
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
 		if (getBody() != null) {
-			batch.draw(texR, getWorldPosition().x - getWidth() / 2, getWorldPosition().y - getHeight() / 2);
+			batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2, getWorldPosition().y - getHeight() / 2, getWidth(), getHeight());
 			font.draw(batch, "food pos: "  + getWorldPosition(), getWorldPosition().x, getWorldPosition().y);
 		}
 	}
