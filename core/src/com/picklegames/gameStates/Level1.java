@@ -345,7 +345,7 @@ public class Level1 extends GameState{
 
 	public void createFishBody() {
 		BodyDef bdef = CreateBox2D.createBodyDef(300, 200, BodyType.DynamicBody);
-		Shape shape = CreateBox2D.createCircleShape(fisho.getWidth() / 2);
+		Shape shape = CreateBox2D.createCircleShape(fisho.getWidth() / 3);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
 		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD;
 		// set body to be fish body

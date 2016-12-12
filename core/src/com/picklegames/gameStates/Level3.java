@@ -1,5 +1,7 @@
 package com.picklegames.gameStates;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Color;
@@ -14,7 +16,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
+import com.picklegames.entities.Bone;
 import com.picklegames.entities.Fish;
 import com.picklegames.entities.FishAI;
 import com.picklegames.entities.FishState;
@@ -45,6 +49,7 @@ public class Level3 extends GameState {
 	private float dayNightRotation = 0;
 	private Boundary bound;
 	private Array<FishAI> fishAIs;
+	private ArrayList<Bone> bones;
 	private boolean isLevelFinish = false;
 
 	private Sprite trans;
@@ -60,6 +65,7 @@ public class Level3 extends GameState {
 
 		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
 		fishAIs = new Array<FishAI>();
+		bones = new ArrayList<Bone>();
 
 		fishtankID = 3;
 
@@ -186,6 +192,10 @@ public class Level3 extends GameState {
 		fisho.update(dt);
 		// System.out.println("targets : " + fisho.getTargets().size());
 
+		for(Bone b : bones){
+			b.update(dt);
+		}
+		
 		for (FishAI f : fishAIs) {
 			f.update(dt);
 			if (f.getHealth() <= 0) {
@@ -202,6 +212,7 @@ public class Level3 extends GameState {
 				FishAI fish = (FishAI) b.getUserData();
 				if (fish.isClicked()) {
 					// fish.dispose();
+					bones.add(createBone(fish.getWorldPosition().x, fish.getWorldPosition().y));
 					if (fisho.getEnergy() + 5 < 100) {
 						fisho.setEnergy(fisho.getEnergy() + 5);
 					}
@@ -287,6 +298,10 @@ public class Level3 extends GameState {
 		for (FishAI f : fishAIs) {
 			f.render(batch);
 		}
+		
+		for(Bone b : bones){
+			b.render(batch);
+		}
 
 		trans.draw(batch);
 
@@ -309,10 +324,24 @@ public class Level3 extends GameState {
 		fish.getBody().setUserData(fish);
 		return fish;
 	}
+	
+	public Bone createBone(float x, float y){
+		Bone b = new Bone();
+		b.setWidth(b.getWidth()/4);
+		b.setHeight(b.getHeight()/4);
+		BodyDef bdef = CreateBox2D.createBodyDef(x, y, BodyType.DynamicBody);
+		Shape shape = CreateBox2D.createCircleShape(b.getWidth()/4);
+		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
+		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_PLAYER;
+		
+		b.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "bone"));
+		b.getBody().setUserData(b);
+		return b;
+	}
 
 	public void createFishBody() {
 		BodyDef bdef = CreateBox2D.createBodyDef(300, 200, BodyType.DynamicBody);
-		Shape shape = CreateBox2D.createCircleShape(fisho.getWidth() / 2);
+		Shape shape = CreateBox2D.createCircleShape(fisho.getWidth() / 3);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
 		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD | B2DVars.BIT_PLAYER;
 		// set body to be fish body
@@ -331,6 +360,11 @@ public class Level3 extends GameState {
 		}
 		fisho.dispose();
 		FishGame.res.getMusic("level3").stop();
+		for(int i = 0; i < bones.size(); i++){
+			bones.get(i).dispose();
+			bones.remove(i);
+			i--;
+		}
 	}
 	
 }
