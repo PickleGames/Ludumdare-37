@@ -120,7 +120,7 @@ public class Fish extends Entity {
 		
 		setSpeed((energy/100) * MAX_SPEED + .5f);
 	}
-
+ 
 	@Override
 	public void render(SpriteBatch batch) {
 

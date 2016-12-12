@@ -347,7 +347,7 @@ public class Level3 extends GameState {
 		fisho.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "player"));
 		fisho.getBody().setUserData(fisho);
 	}
-
+ 
 	@Override
 	public void dispose() {
 		bg.dispose();
