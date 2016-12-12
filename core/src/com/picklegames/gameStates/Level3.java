@@ -15,12 +15,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Shape;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 import com.picklegames.entities.Fish;
 import com.picklegames.entities.FishAI;
+import com.picklegames.entities.FishState;
 import com.picklegames.entities.Food;
 import com.picklegames.game.FishGame;
 import com.picklegames.handlers.Animation;
@@ -48,30 +49,32 @@ public class Level3 extends GameState {
 	private float dayNightRotation = 0;
 	private Boundary bound;
 	private Array<Food> foods;
+	private List<FishAI> fishAIs;
 	private boolean isLevelFinish = false;
-	private Texture deadFish;
 
+	
 	private Sprite trans;
-
+	
 	public Level3(GameStateManager gsm) {
 		super(gsm);
 	}
 
 	@Override
 	public void init() {
-		fishtankID = 1;
+
 		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
-	
-		fishtankID = 1;
+		fishAIs = new ArrayList<FishAI>();
+
+		fishtankID = 3;
+
 
 		// load fish
-		fisho = new Fish(Fish.FishState.ALIVE);
+		fisho = new Fish(FishState.ALIVE);
 		createFishBody();
 		fisho.setBound(bound);
 		fisho.addTarget(300, 200);
 		// fisho.target = fisho.getWorldPosition();
 
-	
 		// load font
 		font = new BitmapFont();
 		font.setColor(Color.GOLD);
@@ -139,10 +142,9 @@ public class Level3 extends GameState {
 		trans = new Sprite(tex);
 		trans.setSize(hudCam.viewportWidth, hudCam.viewportHeight);
 
-		// load food (BUT ACTUALLY DEAD FISH)
+		
+		// load food
 		foods = new Array<Food>();
-		FishGame.res.loadTexture("images/fish2_dead.png", "dead_fish");
-		deadFish = FishGame.res.getTexture("dead_fish");
 		for(int i = 0; i<5; i++){
 			createFood();
 		}
@@ -188,6 +190,21 @@ public class Level3 extends GameState {
 		fisho.update(dt);
 		// System.out.println("targets : " + fisho.getTargets().size());
 
+		for (FishAI f : fishAIs) {
+			f.update(dt);
+			if(f.getHealth() <= 0){
+				f.setFishState(FishState.DEAD);
+			}
+			
+			if (foods.size > 0) {
+				if (f.getTargets().isEmpty()) {
+					Food foo = getRandFood();
+					if(foo != null){
+						f.addFoodTarget(foo);						
+					}
+				}
+			}
+		}
 
 		// dirty
 
@@ -238,6 +255,22 @@ public class Level3 extends GameState {
 		System.out.println("alpha : " + alpha);
 		trans.setAlpha(alpha);
 
+		// update cycle rotation
+		dayNightRotation += 0.08f;
+
+		//GOOD ENOUGH
+		if(dayNightRotation < 180){
+			if(alpha + 0.00035 < 1){
+				alpha += 0.00035f;
+			}
+		}else{
+			alpha -= 0.0003f;
+		}
+		///////////
+		
+		System.out.println("alpha : " + alpha);
+		trans.setAlpha(alpha);
+		
 		System.out.println(dayNightRotation);
 		if (dayNightRotation >= 358) {
 			isLevelFinish = true;
@@ -276,7 +309,11 @@ public class Level3 extends GameState {
 
 		// render fish
 		fisho.render(batch);
-	
+
+		for (FishAI f : fishAIs) {
+			f.render(batch);
+		}
+		
 		trans.draw(batch);
 
 		if (fisho.isClicked()) {
@@ -285,8 +322,8 @@ public class Level3 extends GameState {
 		}
 	}
 
-	public FishAI createFishAI(int x, int y) {
-		FishAI fish = new FishAI(Fish.FishState.ALIVE);
+	public FishAI createFishAI(int x, int y, int state) {
+		FishAI fish = new FishAI(state);
 		BodyDef bdef = CreateBox2D.createBodyDef(x, y, BodyType.DynamicBody);
 		Shape shape = CreateBox2D.createCircleShape(fish.getWidth() / 2);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
@@ -313,14 +350,7 @@ public class Level3 extends GameState {
 		BodyDef bdef;
 		Shape shape;
 		FixtureDef fdef;
-		Food f = new Food();
-		Texture deadFishMan;
-		deadFishMan = FishGame.res.getTexture("dead_fish");
-		TextureRegion texR = new TextureRegion(deadFishMan);
-		f.setAnimation(texR, 0);
-		f.setWidth(deadFishMan.getWidth() * .25f);
-		f.setHeight(deadFishMan.getHeight() * .25f);
-		
+		Food f = new Food();		
 		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 600) + 100, (float) (Math.random() * 100) + 400,
 				BodyType.DynamicBody);
 		shape = CreateBox2D.createCircleShape(f.getWidth() / 2);

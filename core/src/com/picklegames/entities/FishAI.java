@@ -7,13 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.picklegames.game.FishGame;
 
 public class FishAI extends Fish {
-	public FishAI(Fish.FishState state) {
+	public FishAI(int state) {
 		super(state);
 	}
 
-	public enum FishState{
-		ALIVE, DEAD
-	}
 	private Food foodTarget;
 
 	
@@ -22,7 +19,7 @@ public class FishAI extends Fish {
 		FishGame.res.loadTexture("images/fish2_dead.png", "fish2_dead");
 		
 		System.out.println(fishState);
-		if(getFishState().equals(Fish.FishState.ALIVE)){
+		if(getFishState() == FishState.ALIVE){
 			setTex(FishGame.res.getTexture("fish2"));
 		}else{
 			setTex(FishGame.res.getTexture("fish2_dead"));
@@ -36,8 +33,10 @@ public class FishAI extends Fish {
 		setFacing(1);
 		setTargets(new Stack<Vector2>());
 		
-		setHealth(MAX_HP / 2);
-		setSpeed(MAX_SPEED);
+		setMAX_HP(100);
+		setMAX_SPEED(1.5f);
+		setHealth(getMAX_HP() / 2);
+		setSpeed(getMAX_SPEED());
 	}
 
 	boolean isDead = false;
@@ -49,7 +48,7 @@ public class FishAI extends Fish {
 			System.out.println("food target " + getTargets().peek());			
 		}
 		
-		if(getFishState().equals(Fish.FishState.DEAD) && !isDead){
+		if(getFishState() == FishState.DEAD && !isDead){
 			setTex(FishGame.res.getTexture("fish2_dead"));
 			setTexR(TextureRegion.split(getTex(), 250, 250)[0]);
 			setAnimation(getTexR(), DELAY_STOP);
