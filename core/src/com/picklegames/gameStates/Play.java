@@ -2,6 +2,7 @@ package com.picklegames.gameStates;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
@@ -35,7 +36,7 @@ public class Play extends GameState {
 
 	private Fish fisho;
 	private List<FishAI> fishAIs;
-	
+
 	private BitmapFont font;
 	private Vector3 mousePos;
 	private MyContactListener cl;
@@ -54,22 +55,21 @@ public class Play extends GameState {
 
 	@Override
 	public void init() {
-		bound = new Boundary(50, 50, (int)(Gdx.graphics.getWidth() * .90f), (int)(Gdx.graphics.getHeight() * .70f));
+		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
 
-		fishAIs = new ArrayList<FishAI>();	
+		fishAIs = new ArrayList<FishAI>();
 		fishtankID = 3;
 		// load fish
 		fisho = new Fish();
 		createFishBody();
 		fisho.setBound(bound);
 		fisho.addTarget(300, 200);
-		//fisho.target = fisho.getWorldPosition();
-		
-		for(int i = 0; i < 10; i++){
-			fishAIs.add(createFishAI((int)(Math.random() * 500) + 100, (int)(Math.random() * 400) + 100));
+		// fisho.target = fisho.getWorldPosition();
+
+		for (int i = 0; i < 15; i++) {
+			fishAIs.add(createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100));
 		}
-		
-		
+
 		// load font
 		font = new BitmapFont();
 		font.setColor(Color.GOLD);
@@ -90,7 +90,7 @@ public class Play extends GameState {
 		FishGame.res.loadTexture("images/Fishtank" + fishtankID + ".png", "fishtank");
 		tex = FishGame.res.getTexture("fishtank");
 		texR = new TextureRegion(tex);
-		bg.addImage(texR, 0, 0, hudCam.viewportWidth * 1.1f , hudCam.viewportHeight* 1.3f );
+		bg.addImage(texR, 0, 0, hudCam.viewportWidth * 1.1f, hudCam.viewportHeight * 1.3f);
 
 		// load food
 		foods = new Array<Food>();
@@ -112,8 +112,7 @@ public class Play extends GameState {
 	@Override
 	public void handleInput() {
 		System.out.println(bound);
-
-		if(Gdx.input.isButtonPressed(Buttons.LEFT)){
+		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
 			fisho.addTarget(mousePos.x, mousePos.y);
 		}
 
@@ -133,28 +132,46 @@ public class Play extends GameState {
 
 		// update fish
 		fisho.update(dt);
-		System.out.println("targets : " + fisho.getTargets().size());
-		for(FishAI f : fishAIs){
+		// System.out.println("targets : " + fisho.getTargets().size());
+		for (FishAI f : fishAIs) {
 			f.update(dt);
+			if (foods.size > 0) {
+				if (f.getTargets().isEmpty()) {
+					Food foo = getRandFood();
+					if(foo != null){
+						f.addFoodTarget(foo);						
+					}
+				}
+			}
 		}
-
 
 		// dirty
 		Array<Body> bodies = cl.getBodiesToRemove();
 		for (int i = 0; i < bodies.size; i++) {
+			System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
-			foods.removeValue((Food) b.getUserData(), true);
+			Food f = (Food)b.getUserData();
+			f.dispose();
+			foods.removeValue(f, true);
 			game.getWorld().destroyBody(b);
+			System.out.println("after remove food size : " + foods.size);
+			bodies.clear();
+			i--;
 		}
-		bodies.clear();
-
-		// update food
-		for (Food f : foods) {
-			f.update(dt);
-		}
+		System.out.println("after body clear food size : " + foods.size);
 		
-		if(timeElapsed > .05f){
-			if(foods.size < 200){
+		// update food
+		for (int i = 0; i < foods.size; i++) {
+			System.out.println("food update food size : " + foods.size);
+			Food f = foods.get(i);
+			System.out.println("get food food size : " + foods.size);
+			f.update(dt);
+			System.out.println("update food size : " + foods.size);
+		}
+
+		System.out.println("update 2 food size : " + foods.size);
+		if (timeElapsed > .75f) {
+			if (foods.size < 10) {
 				createFood();
 			}
 			timeElapsed = 0;
@@ -163,6 +180,17 @@ public class Play extends GameState {
 		// update cycle rotation
 		dayNightRotation += 0.05f;
 
+	}
+
+	Random rand = new Random();
+	private Food getRandFood() {
+		System.out.println("get rand food size : " + foods.size);
+		if (foods.size > 0) {
+			int num = rand.nextInt(foods.size);
+			System.out.println("get food");
+			return foods.get(num);
+		}
+		return null;
 	}
 
 	@Override
@@ -174,23 +202,24 @@ public class Play extends GameState {
 
 		batch.setProjectionMatrix(cam.combined);
 		// render food
+
 		for (Food f : foods) {
 			f.render(batch);
 		}
 
 		// render fish
 		fisho.render(batch);
-		for(FishAI f : fishAIs){
+		for (FishAI f : fishAIs) {
 			f.render(batch);
 		}
-		
+
 		if (fisho.isClicked()) {
 			font.draw(batch, "STOP!!", fisho.getWorldPosition().x - fisho.getWidth() / 2,
 					fisho.getWorldPosition().y + fisho.getHeight());
 		}
 	}
 
-	public FishAI createFishAI(int x, int y){
+	public FishAI createFishAI(int x, int y) {
 		FishAI fish = new FishAI();
 		BodyDef bdef = CreateBox2D.createBodyDef(x, y, BodyType.DynamicBody);
 		Shape shape = CreateBox2D.createCircleShape(fish.getWidth() / 2);
@@ -199,9 +228,10 @@ public class Play extends GameState {
 
 		// set body to be fish body
 		fish.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "fish"));
+		fish.setBound(bound);
 		return fish;
 	}
-	
+
 	public void createFishBody() {
 
 		BodyDef bdef = CreateBox2D.createBodyDef(300, 200, BodyType.DynamicBody);
@@ -219,9 +249,10 @@ public class Play extends GameState {
 		Shape shape;
 		FixtureDef fdef;
 		Food f = new Food();
-		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 900) + 20, (float) ( Math.random() * 100 ) + 430,
+		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 600) + 100, 
+										 (float) (Math.random() * 100) + 330,
 				BodyType.DynamicBody);
-		shape = CreateBox2D.createCircleShape(5);
+		shape = CreateBox2D.createCircleShape(f.getWidth() /2 );
 		fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);
 		fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_WALL;
 		f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
@@ -232,7 +263,7 @@ public class Play extends GameState {
 
 	@Override
 	public void dispose() {
-
+		
 	}
 
 }
