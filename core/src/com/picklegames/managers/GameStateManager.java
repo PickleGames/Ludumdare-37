@@ -4,8 +4,10 @@ import java.util.Stack;
 
 import com.picklegames.game.FishGame;
 import com.picklegames.gameStates.DeadScreen;
+import com.picklegames.gameStates.End;
 import com.picklegames.gameStates.FlashScreen;
 import com.picklegames.gameStates.GameState;
+import com.picklegames.gameStates.Intro;
 import com.picklegames.gameStates.Level1;
 import com.picklegames.gameStates.Level2;
 import com.picklegames.gameStates.Level3;
@@ -25,14 +27,15 @@ public class GameStateManager {
 	public static final int LEVEL3 = 1337;
 	public static final int FLASH = 104;
 	public static final int DEAD = 666;
+	public static final int INTRO = 711;
+	public static final int END = 6969;
 	public static final int DIALOGUE = 411;
 
 	public GameStateManager(FishGame game) {
 		this.game = game;
 		gameStates = new Stack<GameState>();
-
-		pushState(LEVEL1);
-
+		
+		pushState(MENU);
 	}
 
 	public FishGame game() {
@@ -62,6 +65,10 @@ public class GameStateManager {
 			return new FlashScreen(this);
 		}else if (state == DEAD) {
 			return new DeadScreen(this);
+		}else if (state == INTRO) {
+			return new Intro(this);
+		}else if (state == END) {
+			return new End(this);
 		}
 		return null;
 

@@ -17,7 +17,7 @@ public class FishGame extends ApplicationAdapter {
 	public static final int V_WIDTH = 1080;
 	public static final int V_HEIGHT = 720;
 	public static final float SCALE = 1f;
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public static Content res;
 	public static World world;
@@ -65,7 +65,6 @@ public class FishGame extends ApplicationAdapter {
 		batch.begin();
 		gsm.render();
 		batch.end();
-
 
 		if (DEBUG) {
 			bdr.render(world, cam.combined.scl(B2DVars.PPM));
