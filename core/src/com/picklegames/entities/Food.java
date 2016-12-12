@@ -50,12 +50,18 @@ public class Food extends Entity {
 		}
 	}
 	
-	float veloY = -.6f;
+	float veloY;
+	float veloX;
 	public void drop(){
+		
 		if(getWorldPosition().y < 50){
 			veloY = 0;
+			veloX = 0;
+		}else{
+			veloX = (float) Math.random() * 2 -1;
+			veloY = -.6f;
 		}
-		getBody().setLinearVelocity((float) Math.random() * 2 -1, veloY );
+		getBody().setLinearVelocity(veloX, veloY );
 	}
 
 }
