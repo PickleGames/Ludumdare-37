@@ -98,7 +98,7 @@ public class Level3 extends GameState {
 
 		// load layer 2
 		Animation anime2 = new Animation();
-		FishGame.res.loadTexture("images/Desk.png", "desk");
+		FishGame.res.loadTexture("images/desk.png", "desk");
 		tex = FishGame.res.getTexture("desk");
 		// texR = new TextureRegion(tex);
 		anime2.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
@@ -121,7 +121,7 @@ public class Level3 extends GameState {
 				anime4.getFrame().getRegionHeight() * 1.5f);
 
 		Animation anime5 = new Animation();
-		FishGame.res.loadTexture("images/Chair.png", "chair");
+		FishGame.res.loadTexture("images/chair.png", "chair");
 		tex = FishGame.res.getTexture("chair");
 		anime5.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
 		bg.addImage(anime5, 720, 300, anime5.getFrame().getRegionWidth(), anime5.getFrame().getRegionHeight());
@@ -136,8 +136,8 @@ public class Level3 extends GameState {
 
 		// load layer 2
 		Animation anime6 = new Animation();
-		FishGame.res.loadTexture("images/Fishtank" + fishtankID + ".png", "fishtank1");
-		tex = FishGame.res.getTexture("fishtank1");
+		FishGame.res.loadTexture("images/fishtank3.png", "fishtank3");
+		tex = FishGame.res.getTexture("fishtank3");
 		anime6.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
 		bg.addImage(anime6, 0, 0, hudCam.viewportWidth * 1.1f, hudCam.viewportHeight * 1.3f);
 
