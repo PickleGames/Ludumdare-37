@@ -50,6 +50,13 @@ public class MyContactListener implements ContactListener {
 				playerCounter++;
 			}
 			
+			if (fa.getUserData().equals("fish") && fb.getUserData().equals("player")) {
+				bodiesToRemove.add(fa.getBody());
+			}
+			if (fb.getUserData().equals("fish") && fa.getUserData().equals("player")) {
+				bodiesToRemove.add(fb.getBody());
+			}
+			
 		}
 
 	}

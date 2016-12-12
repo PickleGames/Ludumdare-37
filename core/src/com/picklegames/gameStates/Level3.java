@@ -48,13 +48,11 @@ public class Level3 extends GameState {
 	private DayNightCycle dayNight;
 	private float dayNightRotation = 0;
 	private Boundary bound;
-	private Array<Food> foods;
-	private List<FishAI> fishAIs;
+	private Array<FishAI> fishAIs;
 	private boolean isLevelFinish = false;
 
-	
 	private Sprite trans;
-	
+
 	public Level3(GameStateManager gsm) {
 		super(gsm);
 	}
@@ -63,10 +61,9 @@ public class Level3 extends GameState {
 	public void init() {
 
 		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
-		fishAIs = new ArrayList<FishAI>();
+		fishAIs = new Array<FishAI>();
 
 		fishtankID = 3;
-
 
 		// load fish
 		fisho = new Fish(FishState.ALIVE);
@@ -74,6 +71,11 @@ public class Level3 extends GameState {
 		fisho.setBound(bound);
 		fisho.addTarget(300, 200);
 		// fisho.target = fisho.getWorldPosition();
+
+		for (int i = 0; i < 10; i++) {
+			fishAIs.add(
+					createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.DEAD));
+		}
 
 		// load font
 		font = new BitmapFont();
@@ -142,13 +144,6 @@ public class Level3 extends GameState {
 		trans = new Sprite(tex);
 		trans.setSize(hudCam.viewportWidth, hudCam.viewportHeight);
 
-		
-		// load food
-		foods = new Array<Food>();
-		for(int i = 0; i<5; i++){
-			createFood();
-		}
-
 		// load and set world contact listener
 		cl = new MyContactListener();
 		game.getWorld().setContactListener(cl);
@@ -192,54 +187,37 @@ public class Level3 extends GameState {
 
 		for (FishAI f : fishAIs) {
 			f.update(dt);
-			if(f.getHealth() <= 0){
+			if (f.getHealth() <= 0) {
 				f.setFishState(FishState.DEAD);
 			}
-			
-			if (foods.size > 0) {
-				if (f.getTargets().isEmpty()) {
-					Food foo = getRandFood();
-					if(foo != null){
-						f.addFoodTarget(foo);						
-					}
-				}
-			}
 		}
-
-		// dirty
-
+		
 		Array<Body> bodies = cl.getBodiesToRemove();
-		Array<Body> bodiesFish = cl.getBodiesToHelp();
 		for (int i = 0; i < bodies.size; i++) {
-			// System.out.println("before remove food size : " + foods.size);
+			//System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
-			Food f = (Food) b.getUserData();
-			f.dispose();
-
-			Body fishb = bodiesFish.get(i);
-			Fish fish = (Fish) fishb.getUserData();
-
-			if (fish.getEnergy() + 5 < 100) {
-				fish.setEnergy(fish.getEnergy() + 5);
+			FishAI fish = (FishAI)b.getUserData();
+			
+			if(fish.isClicked()){
+				//fish.dispose();
+				fishAIs.removeValue(fish, false);
+				game.getWorld().destroyBody(fish.getBody());
+				bodies.clear();
+				i--;
 			}
-			if (fish.getHealth() + 5 < fish.getMAX_HP()) {
-				fish.setHealth(fish.getHealth() + 5);
-			}
-
-			bodiesFish.clear();
-			foods.removeValue(f, true);
-			game.getWorld().destroyBody(b);
-
-			bodies.clear();
-			i--;
+			
 		}
 
-		// update food
-		for (int i = 0; i < foods.size; i++) {
-			Food f = foods.get(i);
-			f.update(dt);
-
-		}
+//		for (int i = 0; i < fishAIs.size(); i++) {
+//			FishAI f;
+//			f = fishAIs.get(i);
+//			
+//			if(f.isClicked()){
+//				//f.dispose();
+//				fishAIs.remove(f);
+//				game.getWorld().destroyBody(f.getBody());
+//			}
+//		}
 
 		// update cycle rotation
 		dayNightRotation += 0.08f;
@@ -256,21 +234,21 @@ public class Level3 extends GameState {
 		trans.setAlpha(alpha);
 
 		// update cycle rotation
-		dayNightRotation += 0.08f;
+		dayNightRotation += 0.04f;
 
-		//GOOD ENOUGH
-		if(dayNightRotation < 180){
-			if(alpha + 0.00035 < 1){
-				alpha += 0.00035f;
+		// GOOD ENOUGH
+		if (dayNightRotation < 180) {
+			if (alpha + 0.00016 < 1) {
+				alpha += 0.00016f;
 			}
-		}else{
-			alpha -= 0.0003f;
+		} else {
+			alpha -= 0.00016f;
 		}
 		///////////
-		
+
 		System.out.println("alpha : " + alpha);
 		trans.setAlpha(alpha);
-		
+
 		System.out.println(dayNightRotation);
 		if (dayNightRotation >= 358) {
 			isLevelFinish = true;
@@ -282,17 +260,6 @@ public class Level3 extends GameState {
 
 	}
 
-	Random rand = new Random();
-
-	private Food getRandFood() {
-		if (foods.size > 0) {
-			int num = rand.nextInt(foods.size);
-			System.out.println("get food");
-			return foods.get(num);
-		}
-		return null;
-	}
-
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
@@ -301,19 +268,13 @@ public class Level3 extends GameState {
 		bg.render(batch);
 
 		batch.setProjectionMatrix(cam.combined);
-		// render food
-
-		for (Food f : foods) {
-			f.render(batch);
-		}
-
 		// render fish
 		fisho.render(batch);
 
 		for (FishAI f : fishAIs) {
 			f.render(batch);
 		}
-		
+
 		trans.draw(batch);
 
 		if (fisho.isClicked()) {
@@ -327,7 +288,7 @@ public class Level3 extends GameState {
 		BodyDef bdef = CreateBox2D.createBodyDef(x, y, BodyType.DynamicBody);
 		Shape shape = CreateBox2D.createCircleShape(fish.getWidth() / 2);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
-		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD;
+		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD | B2DVars.BIT_PLAYER;
 		// set body to be fish body
 		fish.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "fish"));
 		fish.setBound(bound);
@@ -339,28 +300,10 @@ public class Level3 extends GameState {
 		BodyDef bdef = CreateBox2D.createBodyDef(300, 200, BodyType.DynamicBody);
 		Shape shape = CreateBox2D.createCircleShape(fisho.getWidth() / 2);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
-		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD;
+		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD | B2DVars.BIT_PLAYER;
 		// set body to be fish body
 		fisho.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "player"));
 		fisho.getBody().setUserData(fisho);
-	}
-
-	public void createFood() {
-
-		BodyDef bdef;
-		Shape shape;
-		FixtureDef fdef;
-		Food f = new Food();		
-		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 600) + 100, (float) (Math.random() * 100) + 400,
-				BodyType.DynamicBody);
-		shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
-		fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);
-		fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_WALL;
-		f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
-		f.getBody().setUserData(f);
-
-		foods.add(f);
-
 	}
 
 	@Override

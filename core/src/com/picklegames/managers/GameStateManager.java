@@ -29,7 +29,11 @@ public class GameStateManager {
 		this.game = game;
 		gameStates = new Stack<GameState>();
 		
+<<<<<<< HEAD
 		pushState(LEVEL1);
+=======
+		pushState(LEVEL3);
+>>>>>>> 2347c9b20e09a8a39f43af989366370f64d6ec90
 
 	}
 

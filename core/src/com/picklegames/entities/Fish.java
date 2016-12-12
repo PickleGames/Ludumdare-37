@@ -241,6 +241,7 @@ public class Fish extends Entity {
 	}
 
 	public void setTex(Texture tex) {
+		
 		this.tex = tex;
 	}
 
