@@ -19,7 +19,6 @@ public class End extends GameState{
 	
 	public End(GameStateManager gsm) {
 		super(gsm);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

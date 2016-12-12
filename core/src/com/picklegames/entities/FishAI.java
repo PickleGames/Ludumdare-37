@@ -23,6 +23,7 @@ public class FishAI extends Fish {
 	private BitmapFont font;
 	private float timerText;
 	private Random rand;
+	
 	public void init() {
 		rand = new Random();
 		aliveT = new String[2];
