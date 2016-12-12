@@ -57,7 +57,7 @@ public class Level1 extends GameState{
 		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
 
 		fishAIs = new ArrayList<FishAI>();
-		fishtankID = 3;
+		fishtankID = 1;
 		// load fish
 		fisho = new Fish(Fish.FishState.ALIVE);
 		createFishBody();

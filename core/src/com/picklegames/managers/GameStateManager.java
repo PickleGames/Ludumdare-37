@@ -4,6 +4,9 @@ import java.util.Stack;
 
 import com.picklegames.game.FishGame;
 import com.picklegames.gameStates.GameState;
+import com.picklegames.gameStates.Level1;
+import com.picklegames.gameStates.Level2;
+import com.picklegames.gameStates.Level3;
 import com.picklegames.gameStates.Menu;
 import com.picklegames.gameStates.Play;
 
@@ -15,12 +18,15 @@ public class GameStateManager {
 
 	public static final int MENU = 123;
 	public static final int PLAY = 101;
+	public static final int LEVEL1 = 102;
+	public static final int LEVEL2 = 103;
+	public static final int LEVEL3 = 104;
 	public static final int DIALOGUE = 411;
 
 	public GameStateManager(FishGame game) {
 		this.game = game;
 		gameStates = new Stack<GameState>();
-		pushState(PLAY);
+		pushState(LEVEL1);
 	}
 
 	public FishGame game() {
@@ -42,6 +48,12 @@ public class GameStateManager {
 			return new Menu(this);
 		} else if (state == PLAY) {
 			return new Play(this);
+		} else if (state == LEVEL1) {
+			return new Level1(this);
+		} else if (state == LEVEL2) {
+			return new Level2(this);
+		} else if (state == LEVEL3) {
+			return new Level3(this);
 		}
 
 		return null;
