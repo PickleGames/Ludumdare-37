@@ -3,6 +3,7 @@ package com.picklegames.entities;
 import java.util.Random;
 import java.util.Stack;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,8 +22,9 @@ public class FishAI extends Fish {
 	
 	private BitmapFont font;
 	private float timerText;
-	
+	private Random rand;
 	public void init() {
+		rand = new Random();
 		aliveT = new String[2];
 		deadT = new String[2];
 		aliveT[0] = "FIGHT FO UR LIFE";
@@ -34,6 +36,7 @@ public class FishAI extends Fish {
 		currentDialouge = "";
 		////////////////////////////////////////////////////////
 		font = new BitmapFont();
+		
 		
 		FishGame.res.loadTexture("images/fish2.png", "fish2");
 		FishGame.res.loadTexture("images/fish2_dead.png", "fish2_dead");
@@ -69,6 +72,7 @@ public class FishAI extends Fish {
 		
 		if(isClicked() && !isSetDialouge){
 			currentDialouge = getDialouge(getFishState());
+			isSetDialouge = true;
 		}
 		
 		if(!currentDialouge.isEmpty()){
@@ -97,8 +101,11 @@ public class FishAI extends Fish {
 		
 	}
 
-	Random rand = new Random();
+
 	private String getDialouge(int state){
+		Color color = new Color(rand.nextFloat(), rand.nextFloat(),rand.nextFloat(), 1);
+		font.setColor(color);
+		font.getData().setScale(rand.nextInt(2) + 1);
 		if(state == FishState.ALIVE){
 			int num = rand.nextInt(aliveT.length);
 			return aliveT[num];
@@ -110,7 +117,7 @@ public class FishAI extends Fish {
 	
 	public void render(SpriteBatch batch){
 		super.render(batch);
-		font.draw(batch, currentDialouge, getWorldPosition().x , getWorldPosition().y);
+		font.draw(batch, currentDialouge, getWorldPosition().x - 20 , getWorldPosition().y);
 	}
 	
 	public void addFoodTarget(Food target) {

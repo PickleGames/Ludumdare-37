@@ -62,7 +62,7 @@ public class Level2 extends GameState {
 
 	@Override
 	public void init() {
-		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
+		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
 		fishAIs = new ArrayList<FishAI>();
 
 		fishtankID = 2;
@@ -256,7 +256,7 @@ public class Level2 extends GameState {
 		}
 
 		// update cycle rotation
-		dayNightRotation += 1.2f;
+		dayNightRotation += 0.08f;
 
 		// GOOD ENOUGH
 		if (dayNightRotation < 180) {

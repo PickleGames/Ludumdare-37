@@ -63,7 +63,7 @@ public class Level1 extends GameState{
 	public void init() {
 		
 		fishtankID = 1;
-		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
+		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
 		fishAIs = new ArrayList<FishAI>();
 
 		fishtankID = 1;
@@ -75,7 +75,7 @@ public class Level1 extends GameState{
 		fisho.addTarget(300, 200);
 		// fisho.target = fisho.getWorldPosition();
 		
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 15; i++) {
 			fishAIs.add(createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.ALIVE));
 		}
 		
@@ -87,7 +87,6 @@ public class Level1 extends GameState{
 
 		// load background
 		bg = new Background(game.getHudCam());
-		TextureRegion texR;
 		Texture tex;
 		
 		// load layer 1
@@ -305,6 +304,7 @@ public class Level1 extends GameState{
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.setProjectionMatrix(hudCam.combined);
+		
 		dayNight.renderCycle(dayNightRotation);
 		bg.render(batch);
 

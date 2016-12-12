@@ -2,7 +2,6 @@ package com.picklegames.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.picklegames.entities.Fish;
@@ -11,7 +10,6 @@ import com.picklegames.entities.Fish;
 public class HUD {
 
 	private Fish fish;
-	private BitmapFont font;
 	private Texture outEnergy;
 	private Texture inEnergy;
 	private Sprite flashy;
@@ -19,7 +17,6 @@ public class HUD {
 	
 	public HUD(Fish fish) {
 		this.fish = fish;
-		font = new BitmapFont();
 		outEnergy = new Texture("images/outhealth.png");
 		inEnergy = new Texture("images/inhealth.png");
 		flashy = new Sprite(new Texture("images/red.png"));

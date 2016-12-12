@@ -10,14 +10,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.picklegames.handlers.B2DVars;
 import com.picklegames.handlers.Content;
-import com.picklegames.handlers.HUD;
 import com.picklegames.managers.GameStateManager;
 
 public class FishGame extends ApplicationAdapter {
 	public static final int V_WIDTH = 1080;
 	public static final int V_HEIGHT = 720;
 	public static final float SCALE = 1f;
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public static Content res;
 	public static World world;

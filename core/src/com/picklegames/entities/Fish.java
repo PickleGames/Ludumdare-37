@@ -5,7 +5,6 @@ import java.util.Stack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -32,8 +31,6 @@ public class Fish extends Entity {
 	private float MAX_HP;
 	private float health = 0;
 	private float energy = 100;
-
-	private BitmapFont font = new BitmapFont();
 
 	public Fish(int state) {
 
@@ -136,16 +133,13 @@ public class Fish extends Entity {
 				getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(),
 				getFacing(), 1, rotation);
 
-		font.draw(batch, "HP: " + health + "S: " + getSpeed() + "E: " + energy, getWorldPosition().x,
-				getWorldPosition().y + getHeight() / 2);
-
 	}
 
 	private void swimTo(Stack<Vector2> target) {
 		if (!target.isEmpty() && fishState == FishState.ALIVE) {
 			Vector2 tar = target.peek();
 			if (!(tar.x - 5 < getWorldPosition().x && tar.x + 5 > getWorldPosition().x
-					&& tar.y - 5 < getWorldPosition().y && tar.y + 5 > getWorldPosition().y)) {
+				  && tar.y - 5 < getWorldPosition().y && tar.y + 5 > getWorldPosition().y)) {
 				float X = (tar.x - getWorldPosition().x);
 				float Y = (tar.y - getWorldPosition().y);
 				float D = (float) Math.sqrt(X * X + Y * Y);
