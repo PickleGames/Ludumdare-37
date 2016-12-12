@@ -271,6 +271,7 @@ public class Level2 extends GameState {
 		
 		
 		if(isLevelFinish){
+			FlashScreen.day = 3;
 			gsm.setState(GameStateManager.FLASH);
 		}
 
@@ -358,5 +359,6 @@ public class Level2 extends GameState {
 	@Override
 	public void dispose() {
 		bg.dispose();
+		
 	}
 }

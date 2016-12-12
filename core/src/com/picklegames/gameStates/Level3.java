@@ -255,7 +255,7 @@ public class Level3 extends GameState {
 		}
 
 		if (isLevelFinish) {
-			gsm.setState(GameStateManager.FLASH);
+			gsm.setState(GameStateManager.END);
 		}
 
 	}

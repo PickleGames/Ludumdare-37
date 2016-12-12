@@ -270,6 +270,7 @@ public class Level1 extends GameState{
 		
 		
 		if(isLevelFinish){
+			FlashScreen.day = 2;
 			gsm.setState(GameStateManager.FLASH);
 		}
 
