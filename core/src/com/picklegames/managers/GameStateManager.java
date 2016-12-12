@@ -19,10 +19,16 @@ public class GameStateManager {
 
 	public static final int MENU = 123;
 	public static final int PLAY = 101;
+<<<<<<< HEAD
 	public static final int LEVEL1 = 420;
 	public static final int LEVEL2 = 360;
 	public static final int LEVEL3 = 1337;
 	public static final int FLASH = 104;
+=======
+	public static final int LEVEL1 = 102;
+	public static final int LEVEL2 = 103;
+	public static final int LEVEL3 = 104;
+>>>>>>> 1fdd96bf8a5efbc2c4271f3b399b74d9a8b2aee8
 	public static final int DIALOGUE = 411;
 
 	public GameStateManager(FishGame game) {
@@ -50,6 +56,7 @@ public class GameStateManager {
 			return new Menu(this);
 		} else if (state == PLAY) {
 			return new Play(this);
+<<<<<<< HEAD
 		}else if (state == LEVEL1) {
 			return new Level1(this);
 		}else if (state == LEVEL2) {
@@ -58,6 +65,14 @@ public class GameStateManager {
 			return new Level3(this);
 		} else if (state == FLASH) {
 			return new FlashScreen(this);
+=======
+		} else if (state == LEVEL1) {
+			return new Level1(this);
+		} else if (state == LEVEL2) {
+			return new Level2(this);
+		} else if (state == LEVEL3) {
+			return new Level3(this);
+>>>>>>> 1fdd96bf8a5efbc2c4271f3b399b74d9a8b2aee8
 		}
 
 		return null;

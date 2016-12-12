@@ -43,8 +43,8 @@ public class HUD {
 		table.setWidth(200);
 		table.left();
 		table.top();
-		table.add(energyTitleLabel).center().width(100).padTop(10);
-		table.add(energyLabel).center().width(100).padTop(10);
+		table.add(energyTitleLabel).center().width(100).pad(10);
+		table.add(energyLabel).center().width(100).pad(10);
 		table.row();
 		table.add(hungerTitleLabel).center().width(100);
 		table.add(hungerLabel).center().width(100);
