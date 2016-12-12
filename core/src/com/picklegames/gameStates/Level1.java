@@ -54,10 +54,9 @@ public class Level1 extends GameState{
 
 	@Override
 	public void init() {
+		fishtankID = 1;
 		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
-
 		fishAIs = new ArrayList<FishAI>();
-		fishtankID = 3;
 		// load fish
 		fisho = new Fish(Fish.FishState.ALIVE);
 		createFishBody();
@@ -86,8 +85,8 @@ public class Level1 extends GameState{
 		bg.addImage(texR, 0, 0, hudCam.viewportWidth, hudCam.viewportHeight);
 
 		// load layer 2
-		FishGame.res.loadTexture("images/Fishtank" + fishtankID + ".png", "fishtank");
-		tex = FishGame.res.getTexture("fishtank");
+		FishGame.res.loadTexture("images/Fishtank" + fishtankID + ".png", "fishtank1");
+		tex = FishGame.res.getTexture("fishtank1");
 		texR = new TextureRegion(tex);
 		bg.addImage(texR, 0, 0, hudCam.viewportWidth * 1.1f, hudCam.viewportHeight * 1.3f);
 
@@ -147,28 +146,28 @@ public class Level1 extends GameState{
 		// dirty
 		Array<Body> bodies = cl.getBodiesToRemove();
 		for (int i = 0; i < bodies.size; i++) {
-			System.out.println("before remove food size : " + foods.size);
+			//System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
 			Food f = (Food)b.getUserData();
 			f.dispose();
 			foods.removeValue(f, true);
 			game.getWorld().destroyBody(b);
-			System.out.println("after remove food size : " + foods.size);
+			//System.out.println("after remove food size : " + foods.size);
 			bodies.clear();
 			i--;
 		}
-		System.out.println("after body clear food size : " + foods.size);
+		//System.out.println("after body clear food size : " + foods.size);
 		
 		// update food
 		for (int i = 0; i < foods.size; i++) {
-			System.out.println("food update food size : " + foods.size);
+			//System.out.println("food update food size : " + foods.size);
 			Food f = foods.get(i);
-			System.out.println("get food food size : " + foods.size);
+			//System.out.println("get food food size : " + foods.size);
 			f.update(dt);
-			System.out.println("update food size : " + foods.size);
+			//System.out.println("update food size : " + foods.size);
 		}
 
-		System.out.println("update 2 food size : " + foods.size);
+		//System.out.println("update 2 food size : " + foods.size);
 		if (timeElapsed > .75f) {
 			if (foods.size < 10) {
 				createFood();
@@ -183,7 +182,6 @@ public class Level1 extends GameState{
 
 	Random rand = new Random();
 	private Food getRandFood() {
-		System.out.println("get rand food size : " + foods.size);
 		if (foods.size > 0) {
 			int num = rand.nextInt(foods.size);
 			System.out.println("get food");
