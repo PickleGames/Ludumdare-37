@@ -136,6 +136,10 @@ public class Level1 extends GameState{
 		// System.out.println("targets : " + fisho.getTargets().size());
 		for (FishAI f : fishAIs) {
 			f.update(dt);
+			if(f.getHealth() <= 0){
+				f.setFishState(Fish.FishState.DEAD);
+			}
+			
 			if (foods.size > 0) {
 				if (f.getTargets().isEmpty()) {
 					Food foo = getRandFood();
@@ -147,12 +151,37 @@ public class Level1 extends GameState{
 		}
 
 		// dirty
+//		int playerCount = cl.getPlayerCounter();
+//		while(playerCount != 0){
+//			if (fisho.getHealth() < fisho.getMAX_HP() + 5) {
+//				fisho.setHealth(fisho.getHealth() + 5);
+//			}
+//			if (fisho.getEnergy() < 100 + 5) {
+//				fisho.setEnergy(fisho.getEnergy() + 5);
+//			}
+//			playerCount--;
+//			cl.setPlayerCounter(playerCount);
+//		}
+		
 		Array<Body> bodies = cl.getBodiesToRemove();
+		Array<Body> bodiesFish = cl.getBodiesToHelp();
 		for (int i = 0; i < bodies.size; i++) {
 			//System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
 			Food f = (Food)b.getUserData();
 			f.dispose();
+			
+			Body fishb = bodiesFish.get(i);
+			Fish fish = (Fish)fishb.getUserData();
+			
+			if (fish.getHealth() < fish.getMAX_HP() + 5) {
+				fish.setHealth(fish.getHealth() + 5);
+			}
+			if (fish.getEnergy() < 100 + 5) {
+				fish.setEnergy(fish.getEnergy() + 5);
+			}
+			
+			bodiesFish.clear();
 			foods.removeValue(f, true);
 			game.getWorld().destroyBody(b);
 			//System.out.println("after remove food size : " + foods.size);
@@ -225,22 +254,21 @@ public class Level1 extends GameState{
 		Shape shape = CreateBox2D.createCircleShape(fish.getWidth() / 2);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
 		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD;
-
 		// set body to be fish body
 		fish.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "fish"));
 		fish.setBound(bound);
+		fish.getBody().setUserData(fish);
 		return fish;
 	}
 
 	public void createFishBody() {
-
 		BodyDef bdef = CreateBox2D.createBodyDef(300, 200, BodyType.DynamicBody);
 		Shape shape = CreateBox2D.createCircleShape(fisho.getWidth() / 2);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
 		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD;
-
 		// set body to be fish body
-		fisho.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "fish"));
+		fisho.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "player"));
+		fisho.getBody().setUserData(fisho);
 	}
 
 	public void createFood() {

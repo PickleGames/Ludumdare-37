@@ -244,7 +244,7 @@ public class Play extends GameState {
 		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD;
 
 		// set body to be fish body
-		fisho.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "fish"));
+		fisho.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "player"));
 	}
 
 	public void createFood() {

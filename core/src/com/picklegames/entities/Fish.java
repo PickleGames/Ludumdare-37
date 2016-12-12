@@ -29,11 +29,11 @@ public class Fish extends Entity {
 	private Texture tex;
 	private TextureRegion[] texR;
 	private float rotation = 0;
-	private final float MAX_SPEED = 4f;
-	private float speed = 4;
+	private float speed = 2;
 	private Stack<Vector2> targets;
 
-	private final float MAX_HP = 200;
+	public final float MAX_SPEED = 2f;
+	public final float MAX_HP = 200;
 	private float health = 0;
 	private float energy = 100;
 
@@ -74,7 +74,7 @@ public class Fish extends Entity {
 		this.targets = new Stack<Vector2>();
 
 		health = MAX_HP;
-		speed = MAX_SPEED;
+		setSpeed(MAX_SPEED);
 
 	}
 
@@ -115,7 +115,7 @@ public class Fish extends Entity {
 			health -= .05f;
 		}
 		
-		speed = (energy/100) * MAX_SPEED + .5f;
+		setSpeed((energy/100) * MAX_SPEED + .5f);
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class Fish extends Entity {
 				getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(),
 				getFacing(), 1, rotation);
 
-		font.draw(batch, "HP: " + health + "S: " + speed + "E: " + energy, getWorldPosition().x,
+		font.draw(batch, "HP: " + health + "S: " + getSpeed() + "E: " + energy, getWorldPosition().x,
 				getWorldPosition().y + getHeight() / 2);
 
 	}
@@ -145,7 +145,7 @@ public class Fish extends Entity {
 				float D = (float) Math.sqrt(X * X + Y * Y);
 				if (getBound().isInBoundary((int) getWorldPosition().x, (int) getWorldPosition().y)) {
 					// System.out.println("swim");
-					setVelocity(speed * (X / D), speed * (Y / D));
+					setVelocity(getSpeed() * (X / D), getSpeed() * (Y / D));
 				}
 				if (target.size() >= 50) {
 					while (!target.isEmpty()) {
@@ -260,6 +260,18 @@ public class Fish extends Entity {
 
 	public float getEnergy() {
 		return energy;
+	}
+
+	public void setEnergy(float f) {
+		energy = f;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
 	}
 
 }

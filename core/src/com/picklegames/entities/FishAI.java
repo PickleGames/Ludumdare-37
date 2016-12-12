@@ -35,14 +35,27 @@ public class FishAI extends Fish {
 
 		setFacing(1);
 		setTargets(new Stack<Vector2>());
+		
+		setHealth(MAX_HP / 2);
+		setSpeed(MAX_SPEED);
 	}
 
+	boolean isDead = false;
 	public void update(float dt) {
 		super.update(dt);
 
 		System.out.println("food target " + getTargets().size());
 		if(!getTargets().isEmpty()){
 			System.out.println("food target " + getTargets().peek());			
+		}
+		
+		if(getFishState().equals(Fish.FishState.DEAD) && !isDead){
+			setTex(FishGame.res.getTexture("fish2_dead"));
+			setTexR(TextureRegion.split(getTex(), 250, 250)[0]);
+			setAnimation(getTexR(), DELAY_STOP);
+			setWidth(getWidth() * .25f);
+			setHeight(getHeight() * .25f);
+			isDead = true;
 		}
 	}
 
