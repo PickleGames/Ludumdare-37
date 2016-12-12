@@ -165,6 +165,10 @@ public class Level2 extends GameState {
 		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 20), 1000, 520, B2DVars.BIT_WALL,
 				B2DVars.BIT_PLAYER);
 		hud = new HUD(fisho);
+		FishGame.res.loadMusic("musics/level2music.mp3", "level2");
+		FishGame.res.getMusic("level2").setLooping(true);
+		FishGame.res.getMusic("level2").play();
+		
 	}
 
 	@Override
@@ -382,5 +386,6 @@ public class Level2 extends GameState {
 		}
 		cl.getBodiesToHelp().clear();
 		cl.getBodiesToRemove().clear();
+		FishGame.res.getMusic("level2").stop();
 	}
 }

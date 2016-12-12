@@ -3,6 +3,7 @@ package com.picklegames.gameStates;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.picklegames.game.FishGame;
 import com.picklegames.managers.GameStateManager;
 
 public class FlashScreen extends GameState {
@@ -25,6 +26,9 @@ public class FlashScreen extends GameState {
 		font.getData().setScale(20);
 
 		layout = new GlyphLayout();
+		FishGame.res.loadMusic("musics/thisfitnowhere.mp3", "flash");
+		FishGame.res.getMusic("flash").setVolume(0.5f);
+		FishGame.res.getMusic("flash").play();
 	}
 
 	@Override
@@ -40,13 +44,13 @@ public class FlashScreen extends GameState {
 		// TODO Auto-generated method stub
 
 		timeElap += dt;
-		if (timeElap > 2f) {
+		if (timeElap > 8f) {
 			if (day == 1) {
-				gsm.setState(gsm.LEVEL1);
+				gsm.setState(GameStateManager.LEVEL1);
 			} else if(day == 2){
-				gsm.setState(gsm.LEVEL2);
+				gsm.setState(GameStateManager.LEVEL2);
 			}else{
-				gsm.setState(gsm.LEVEL3);
+				gsm.setState(GameStateManager.LEVEL3);
 			}
 			timeElap = 0;
 		}
@@ -63,7 +67,8 @@ public class FlashScreen extends GameState {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		font.dispose();
+		FishGame.res.getMusic("flash").stop();
 
 	}
 

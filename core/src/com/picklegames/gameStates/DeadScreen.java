@@ -3,6 +3,7 @@ package com.picklegames.gameStates;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
+import com.picklegames.game.FishGame;
 import com.picklegames.managers.GameStateManager;
 
 public class DeadScreen extends GameState{
@@ -17,7 +18,8 @@ public class DeadScreen extends GameState{
 	@Override
 	public void init() {
 		bg = new Texture("images/deadscreen.png");
-		
+		FishGame.res.loadMusic("musics/youdead.mp3", "dead");
+		FishGame.res.getMusic("dead").play();
 	}
 
 	@Override
@@ -43,7 +45,7 @@ public class DeadScreen extends GameState{
 	@Override
 	public void dispose() {
 		bg.dispose();
-		
+		FishGame.res.getMusic("dead").stop();
 	}
 
 }

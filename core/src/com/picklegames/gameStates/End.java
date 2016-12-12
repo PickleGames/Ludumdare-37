@@ -3,6 +3,7 @@ package com.picklegames.gameStates;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.picklegames.game.FishGame;
 import com.picklegames.managers.GameStateManager;
 
 // Miguel Garnica
@@ -23,8 +24,11 @@ public class End extends GameState{
 		font = new BitmapFont();
 		font.setColor(Color.GOLD);
 		font.getData().setScale(15);
-		
 		layout = new GlyphLayout();
+		
+		FishGame.res.loadMusic("musics/youdead.mp3", "end");
+		FishGame.res.getMusic("end").setLooping(true);
+		FishGame.res.getMusic("end").play();
 	}
 
 	@Override
@@ -48,8 +52,8 @@ public class End extends GameState{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		font.dispose();
+		FishGame.res.getMusic("end").stop();
 	}
 
 }

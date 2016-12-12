@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.picklegames.game.FishGame;
-
 import com.picklegames.managers.GameStateManager;
 
 // Miguel Garnica
@@ -34,6 +33,9 @@ public class Menu extends GameState{
 		font.getData().setScale(5);
 		
 		layout = new GlyphLayout();
+		FishGame.res.loadMusic("musics/mainmenu.mp3", "menu");
+		FishGame.res.getMusic("menu").setLooping(true);
+		FishGame.res.getMusic("menu").play();
 	}
 
 	@Override
@@ -47,7 +49,7 @@ public class Menu extends GameState{
 		// TODO Auto-generated method stub
 		if(Gdx.input.isKeyPressed(Keys.ENTER)){
 			FlashScreen.day +=1;
-			gsm.setState(gsm.FLASH);
+			gsm.setState(GameStateManager.FLASH);
 		}
 	}
 
@@ -55,16 +57,15 @@ public class Menu extends GameState{
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.draw(tex, 0, 0, cam.viewportWidth, cam.viewportHeight);
-
-		
 		layout.setText(font, "PRESS ENTER BROSKI");
 		font.draw(batch, "PRESS ENTER BROSKI", cam.viewportWidth/2 - layout.width/2, cam.viewportHeight - layout.height/2);
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
+		tex.dispose();
+		font.dispose();
+		FishGame.res.getMusic("menu").stop();
 	}
 	
 }

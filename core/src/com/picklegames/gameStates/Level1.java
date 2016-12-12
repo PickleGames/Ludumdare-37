@@ -164,7 +164,10 @@ public class Level1 extends GameState{
 		
 		// 
 		hud = new HUD(fisho);
-		
+		FishGame.res.loadMusic("musics/level1music.mp3", "level1");
+		FishGame.res.getMusic("level1").setLooping(true);
+		FishGame.res.getMusic("level1").setVolume(1f);
+		FishGame.res.getMusic("level1").play();
 	}
 
 	@Override
@@ -384,6 +387,6 @@ public class Level1 extends GameState{
 			foods.removeIndex(i);
 			i--;
 		}
-
+		FishGame.res.getMusic("level1").stop();
 	}
 }
