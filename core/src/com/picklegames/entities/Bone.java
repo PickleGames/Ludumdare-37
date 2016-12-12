@@ -38,7 +38,7 @@ public class Bone extends Entity {
 		aliveT = new String[3];
 		aliveT[0] = "IMMA HAUNT UR LIFE";
 		aliveT[1] = "Y U EAT ME BRUh";
-		aliveT[1] = "I DIE FOR UR SIN";
+		aliveT[2] = "I DIE FOR UR SIN";
 		currentDialouge = "";
 		////////////////////////////////////////////////////////
 		font = new BitmapFont();

@@ -17,7 +17,7 @@ public class HUD {
 	
 	public HUD(Fish fish) {
 		this.fish = fish;
-		outEnergy = new Texture("images/outHealth.png");
+		outEnergy = new Texture("images/outhealth.png");
 		inEnergy = new Texture("images/inhealth.png");
 		flashy = new Sprite(new Texture("images/red.png"));
 		flashy.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

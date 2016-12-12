@@ -3,8 +3,10 @@ package com.picklegames.entities;
 import java.util.Random;
 import java.util.Stack;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -23,7 +25,6 @@ public class FishAI extends Fish {
 	private BitmapFont font;
 	private float timerText;
 	private Random rand;
-	
 	public void init() {
 		rand = new Random();
 		aliveT = new String[5];
