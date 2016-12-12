@@ -26,10 +26,12 @@ public class FishAI extends Fish {
 	
 	public void init() {
 		rand = new Random();
-		aliveT = new String[2];
+		aliveT = new String[4];
 		deadT = new String[2];
 		aliveT[0] = "FIGHT FO UR LIFE";
 		aliveT[1] = "WHAT DO U WANT?";
+		aliveT[2] = "HEY, IM SWIMMING HERE!";
+		aliveT[3] = "GO AWAY!!";
 		
 		deadT[0] = "IM DEAD!!";
 		deadT[1] = "DONT EAT ME BRUH";
@@ -62,6 +64,8 @@ public class FishAI extends Fish {
 		setMAX_SPEED(1.5f);
 		setHealth(getMAX_HP() / 2);
 		setSpeed(getMAX_SPEED());
+		
+		FishGame.res.loadSound("sounds/ded.mp3", "dedFish");
 	}
 
 	boolean isDead = false;
@@ -100,6 +104,11 @@ public class FishAI extends Fish {
 			isDead = true;
 		}
 		
+		
+		if(getHealth() < .10f && !isDead){
+			FishGame.res.getSound("dedFish").setVolume(1, .25f);
+			FishGame.res.getSound("dedFish").play();
+		}
 	}
 
 

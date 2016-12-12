@@ -162,6 +162,8 @@ public class Level3 extends GameState {
 		FishGame.res.loadMusic("musics/level3music.mp3", "level3");
 		FishGame.res.getMusic("level3").setLooping(true);
 		FishGame.res.getMusic("level3").play();
+		
+		FishGame.res.loadSound("sounds/ded.mp3", "eatFish");
 	}
 
 	@Override
@@ -211,6 +213,7 @@ public class Level3 extends GameState {
 				FishAI fish = (FishAI) b.getUserData();
 				if (fish.isClicked()) {
 					// fish.dispose();
+					FishGame.res.getSound("eatFish").play();
 					bones.add(createBone(fish.getWorldPosition().x, fish.getWorldPosition().y));
 					if (fisho.getEnergy() + 5 < 100) {
 						fisho.setEnergy(fisho.getEnergy() + 5);
