@@ -191,6 +191,7 @@ public class Level3 extends GameState {
 		}
 		
 		Array<Body> bodies = cl.getBodiesToRemove();
+		System.out.println(bodies.size);
 		for (int i = 0; i < bodies.size; i++) {
 			//System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
@@ -198,6 +199,9 @@ public class Level3 extends GameState {
 			
 			if(fish.isClicked()){
 				//fish.dispose();
+				if (fisho.getEnergy() + 5 < 100) {
+					fisho.setEnergy(fisho.getEnergy() + 5);
+				}
 				fishAIs.removeValue(fish, false);
 				game.getWorld().destroyBody(fish.getBody());
 				bodies.clear();
@@ -293,7 +297,7 @@ public class Level3 extends GameState {
 	public FishAI createFishAI(int x, int y, int state) {
 		FishAI fish = new FishAI(state);
 		BodyDef bdef = CreateBox2D.createBodyDef(x, y, BodyType.DynamicBody);
-		Shape shape = CreateBox2D.createCircleShape(fish.getWidth() / 2);
+		Shape shape = CreateBox2D.createCircleShape(fish.getWidth() / 4);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);
 		fdef.filter.maskBits = B2DVars.BIT_WALL | B2DVars.BIT_FOOD | B2DVars.BIT_PLAYER;
 		// set body to be fish body
@@ -323,5 +327,7 @@ public class Level3 extends GameState {
 		}
 		fisho.dispose();
 		
+		
 	}
+	
 }

@@ -52,14 +52,14 @@ public class Level2 extends GameState {
 	private Boundary bound;
 	private Array<Food> foods;
 	private boolean isLevelFinish = false;
-	
+
 	private Sprite trans;
 	private HUD hud;
+
 	public Level2(GameStateManager gsm) {
 		super(gsm);
 	}
 
-	
 	@Override
 	public void init() {
 		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
@@ -75,10 +75,12 @@ public class Level2 extends GameState {
 		// fisho.target = fisho.getWorldPosition();
 
 		for (int i = 0; i < 5; i++) {
-			fishAIs.add(createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.ALIVE));
+			fishAIs.add(createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100,
+					FishState.ALIVE));
 		}
 		for (int i = 0; i < 10; i++) {
-			fishAIs.add(createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.DEAD));
+			fishAIs.add(
+					createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.DEAD));
 		}
 
 		// load font
@@ -89,7 +91,7 @@ public class Level2 extends GameState {
 		// load background
 		bg = new Background(game.getHudCam());
 		Texture tex;
-		
+
 		// load layer 1
 		Animation anime1 = new Animation();
 		FishGame.res.loadTexture("images/background.png", "bg");
@@ -97,43 +99,44 @@ public class Level2 extends GameState {
 		anime1.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
 		bg.addImage(anime1, 0, 0, hudCam.viewportWidth, hudCam.viewportHeight);
 
-		
 		// load layer 2
 		Animation anime2 = new Animation();
 		FishGame.res.loadTexture("images/Desk.png", "desk");
 		tex = FishGame.res.getTexture("desk");
-		//texR = new TextureRegion(tex);
+		// texR = new TextureRegion(tex);
 		anime2.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
 		bg.addImage(anime2, 650, 330, anime2.getFrame().getRegionWidth(), anime2.getFrame().getRegionHeight());
-		
-		//FishGame.res.loadTexture("images/Computer.png", "comp");
+
+		// FishGame.res.loadTexture("images/Computer.png", "comp");
 		Animation anime3 = new Animation();
 		FishGame.res.loadTexture("images/desktop.png", "comp");
 		tex = FishGame.res.getTexture("comp");
 		TextureRegion[] regs = TextureRegion.split(tex, tex.getWidth() / 4, tex.getHeight())[0];
 		anime3.setFrames(regs, 5);
 		bg.addImage(anime3, 680, 435, anime3.getFrame().getRegionWidth(), anime3.getFrame().getRegionHeight());
-		
+
 		Animation anime4 = new Animation();
 		FishGame.res.loadTexture("images/owner.png", "owner");
 		tex = FishGame.res.getTexture("owner");
-		//texR = new TextureRegion(tex);
+		// texR = new TextureRegion(tex);
 		anime4.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
-		bg.addImage(anime4, 670, 350, anime4.getFrame().getRegionWidth() * 1.5f, anime4.getFrame().getRegionHeight() * 1.5f);
-		
+		bg.addImage(anime4, 670, 350, anime4.getFrame().getRegionWidth() * 1.5f,
+				anime4.getFrame().getRegionHeight() * 1.5f);
+
 		Animation anime5 = new Animation();
 		FishGame.res.loadTexture("images/Chair.png", "chair");
 		tex = FishGame.res.getTexture("chair");
 		anime5.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
 		bg.addImage(anime5, 720, 300, anime5.getFrame().getRegionWidth(), anime5.getFrame().getRegionHeight());
-		
-//		Animation anime7 = new Animation();
-//		FishGame.res.loadTexture("images/daynight.png", "daynight");
-//		tex = FishGame.res.getTexture("daynight");
-//		anime5.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
-//		bg.addImage(anime5, 0, 0, hudCam.viewportWidth, hudCam.viewportHeight);
 
-				
+		// Animation anime7 = new Animation();
+		// FishGame.res.loadTexture("images/daynight.png", "daynight");
+		// tex = FishGame.res.getTexture("daynight");
+		// anime5.setFrames(TextureRegion.split(tex, tex.getWidth(),
+		// tex.getHeight())[0], 0);
+		// bg.addImage(anime5, 0, 0, hudCam.viewportWidth,
+		// hudCam.viewportHeight);
+
 		// load layer 2
 		Animation anime6 = new Animation();
 		FishGame.res.loadTexture("images/Fishtank" + fishtankID + ".png", "fishtank1");
@@ -145,7 +148,7 @@ public class Level2 extends GameState {
 		tex = FishGame.res.getTexture("daynight");
 		trans = new Sprite(tex);
 		trans.setSize(hudCam.viewportWidth, hudCam.viewportHeight);
-		
+
 		// load food
 		foods = new Array<Food>();
 
@@ -175,11 +178,12 @@ public class Level2 extends GameState {
 
 	float timeElapsed = 0;
 	float alpha;
+
 	@Override
 	public void update(float dt) {
 		timeElapsed += dt;
 		bg.update(dt);
-		
+
 		mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		cam.unproject(mousePos);
 		// System.out.println(mousePos);
@@ -191,15 +195,15 @@ public class Level2 extends GameState {
 		// System.out.println("targets : " + fisho.getTargets().size());
 		for (FishAI f : fishAIs) {
 			f.update(dt);
-			if(f.getHealth() <= 0){
+			if (f.getHealth() <= 0) {
 				f.setFishState(FishState.DEAD);
 			}
-			
+
 			if (foods.size > 0) {
 				if (f.getTargets().isEmpty()) {
 					Food foo = getRandFood();
-					if(foo != null){
-						f.addFoodTarget(foo);						
+					if (foo != null) {
+						f.addFoodTarget(foo);
 					}
 				}
 			}
@@ -207,25 +211,24 @@ public class Level2 extends GameState {
 
 		// dirty
 
-		
 		Array<Body> bodies = cl.getBodiesToRemove();
 		Array<Body> bodiesFish = cl.getBodiesToHelp();
 		for (int i = 0; i < bodies.size; i++) {
-			//System.out.println("before remove food size : " + foods.size);
+			// System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
-			Food f = (Food)b.getUserData();
+			Food f = (Food) b.getUserData();
 			f.dispose();
-			
+
 			Body fishb = bodiesFish.get(i);
-			Fish fish = (Fish)fishb.getUserData();
-			
-			if (fish.getEnergy() + 5 < 100 ) {
+			Fish fish = (Fish) fishb.getUserData();
+
+			if (fish.getEnergy() + 5 < 100) {
 				fish.setEnergy(fish.getEnergy() + 5);
 			}
 			if (fish.getHealth() + 5 < fish.getMAX_HP()) {
 				fish.setHealth(fish.getHealth() + 5);
 			}
-			
+
 			bodiesFish.clear();
 			foods.removeValue(f, true);
 			game.getWorld().destroyBody(b);
@@ -234,14 +237,12 @@ public class Level2 extends GameState {
 			i--;
 		}
 
-		
 		// update food
 		for (int i = 0; i < foods.size; i++) {
 			Food f = foods.get(i);
 			f.update(dt);
 
 		}
-
 
 		if (timeElapsed > .3f) {
 			if (foods.size < 5) {
@@ -253,39 +254,39 @@ public class Level2 extends GameState {
 		// update cycle rotation
 		dayNightRotation += 0.08f;
 
-		//GOOD ENOUGH
-		if(dayNightRotation < 180){
-			if(alpha + 0.00035 < 1){
+		// GOOD ENOUGH
+		if (dayNightRotation < 180) {
+			if (alpha + 0.00035 < 1) {
 				alpha += 0.00035f;
 			}
-		}else{
+		} else {
 			alpha -= 0.0003f;
 		}
 		///////////
-		
+
 		System.out.println("alpha : " + alpha);
 		trans.setAlpha(alpha);
-		
+
 		System.out.println(dayNightRotation);
-		if(dayNightRotation >= 358){
+		if (dayNightRotation >= 358) {
 			isLevelFinish = true;
 		}
-		
-		
-		if(isLevelFinish){
+
+		if (isLevelFinish) {
 			FlashScreen.day = 3;
 			gsm.setState(GameStateManager.FLASH);
 		}
 
-		if(fisho.getHealth() <= 0){
+		if (fisho.getHealth() <= 0) {
 			GameStateManager.level = GameStateManager.LEVEL2;
 			gsm.setState(GameStateManager.DEAD);
 		}
-		
+
 		hud.update(dt);
 	}
 
 	Random rand = new Random();
+
 	private Food getRandFood() {
 		if (foods.size > 0) {
 			int num = rand.nextInt(foods.size);
@@ -314,7 +315,7 @@ public class Level2 extends GameState {
 		for (FishAI f : fishAIs) {
 			f.render(batch);
 		}
-		
+
 		trans.draw(batch);
 
 		if (fisho.isClicked()) {
@@ -353,10 +354,9 @@ public class Level2 extends GameState {
 		Shape shape;
 		FixtureDef fdef;
 		Food f = new Food();
-		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 600) + 100, 
-										 (float) (Math.random() * 100) + 400,
+		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 600) + 100, (float) (Math.random() * 100) + 400,
 				BodyType.DynamicBody);
-		shape = CreateBox2D.createCircleShape(f.getWidth() /2 );
+		shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
 		fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);
 		fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_WALL;
 		f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
@@ -367,18 +367,33 @@ public class Level2 extends GameState {
 
 	@Override
 	public void dispose() {
+//		bg.dispose();
+//		for (int i = 0; i < fishAIs.size(); i++) {
+//			fishAIs.get(i).dispose();
+//			fishAIs.remove(i);
+//			i--;
+//		}
+//		fisho.dispose();
+//
+//		for (int i = 0; i < foods.size; i++) {
+//			foods.get(i).dispose();
+//			foods.removeIndex(i);
+//			i--;
+//		}
+
 		bg.dispose();
-		for(int i = 0; i < fishAIs.size(); i++){
-			fishAIs.get(i).dispose();
-			fishAIs.remove(i);
-			i--;
-		}
 		fisho.dispose();
-		
-		for(int i = 0; i < foods.size; i++){
-			foods.get(i).dispose();
-			foods.removeIndex(i);
-			i--;
+		for (Food f : foods) {
+			f.dispose();
+			foods.removeValue(f, true);
+			game.getWorld().destroyBody(f.getBody());
 		}
+		foods.clear();
+		for (FishAI fi : fishAIs) {
+			fi.dispose();
+		}
+		fishAIs.clear();
+		cl.getBodiesToHelp().clear();
+		cl.getBodiesToRemove().clear();
 	}
 }
