@@ -60,7 +60,7 @@ public class Level1 extends GameState{
 
 	@Override
 	public void init() {
-		
+
 		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .95f), (int) (Gdx.graphics.getHeight() * .70f));
 		fishAIs = new ArrayList<FishAI>();
 

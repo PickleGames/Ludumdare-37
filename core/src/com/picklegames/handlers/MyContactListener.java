@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
+import com.picklegames.game.FishGame;
 
 // Miguel Garnica
 // Dec 10, 2016
@@ -18,10 +19,11 @@ public class MyContactListener implements ContactListener {
 	private int playerCounter;
 	
 
-
 	public MyContactListener() {
 		bodiesToRemove = new Array<Body>();
 		bodiesToHelp = new Array<Body>();
+		
+	
 	}
 
 	@Override
