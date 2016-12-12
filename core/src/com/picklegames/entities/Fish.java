@@ -28,8 +28,8 @@ public class Fish extends Entity {
 	private float speed = 1.5f;
 	private Stack<Vector2> targets;
 
-	private float MAX_SPEED ;
-	private float MAX_HP ;
+	private float MAX_SPEED;
+	private float MAX_HP;
 	private float health = 0;
 	private float energy = 100;
 
@@ -69,7 +69,7 @@ public class Fish extends Entity {
 		setFacing(1);
 		this.targets = new Stack<Vector2>();
 		
-		setMAX_HP(200); 
+		setMAX_HP(30); 
 		setMAX_SPEED(1.5f);
 		health = MAX_HP;
 		setSpeed(MAX_SPEED);
@@ -117,7 +117,7 @@ public class Fish extends Entity {
 			timeElap = 0;
 		}
 		
-		if(energy < 50){
+		if(energy < 20){
 			health -= .05f;
 		}
 		

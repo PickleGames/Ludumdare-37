@@ -30,6 +30,7 @@ import com.picklegames.handlers.Background;
 import com.picklegames.handlers.Boundary;
 import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.handlers.DayNightCycle;
+import com.picklegames.handlers.HUD;
 import com.picklegames.handlers.MyContactListener;
 import com.picklegames.managers.GameStateManager;
 
@@ -53,7 +54,7 @@ public class Level2 extends GameState {
 	private boolean isLevelFinish = false;
 	
 	private Sprite trans;
-	
+	private HUD hud;
 	public Level2(GameStateManager gsm) {
 		super(gsm);
 	}
@@ -160,6 +161,7 @@ public class Level2 extends GameState {
 
 		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 20), 1000, 520, B2DVars.BIT_WALL,
 				B2DVars.BIT_PLAYER);
+		hud = new HUD(fisho);
 	}
 
 	@Override
@@ -275,6 +277,12 @@ public class Level2 extends GameState {
 			gsm.setState(GameStateManager.FLASH);
 		}
 
+		if(fisho.getHealth() <= 0){
+			GameStateManager.level = GameStateManager.LEVEL2;
+			gsm.setState(GameStateManager.DEAD);
+		}
+		
+		hud.update(dt);
 	}
 
 	Random rand = new Random();
@@ -313,6 +321,7 @@ public class Level2 extends GameState {
 			font.draw(batch, "STOP!!", fisho.getWorldPosition().x - fisho.getWidth() / 2,
 					fisho.getWorldPosition().y + fisho.getHeight());
 		}
+		hud.renderHUD(batch);
 	}
 
 	public FishAI createFishAI(int x, int y, int state) {
@@ -359,26 +368,18 @@ public class Level2 extends GameState {
 	@Override
 	public void dispose() {
 		bg.dispose();
+
+		for(int i = 0; i < fishAIs.size(); i++){
+			fishAIs.get(i).dispose();
+			fishAIs.remove(i);
+			i--;
+		}
 		fisho.dispose();
-		for(int i = 0; i< foods.size; i++){
+		
+		for(int i = 0; i < foods.size; i++){
 			foods.get(i).dispose();
-			foods.removeValue(foods.get(i), true);
-			game.getWorld().destroyBody(foods.get(i).getBody());
-			foods.clear();
+			foods.removeIndex(i);
+			i--;
 		}
-	
-		for(FishAI fi: fishAIs){
-			fi.dispose();
-		}
-		fishAIs.clear();
-		cl.getBodiesToHelp().clear();
-		cl.getBodiesToRemove().clear();
-		
-		
-		System.out.println("FOODS:" + foods.size);
-		System.out.println("CL BODIES: "+cl.getBodiesToRemove().size);
-		System.out.println("FISHAI: "+ fishAIs.size());
-		System.out.println("CL FISHB: " + cl.getBodiesToHelp().size);
-		System.out.println("WORLD BODIES: "+ game.getWorld().getBodyCount());
 	}
 }

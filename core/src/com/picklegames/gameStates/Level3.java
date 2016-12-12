@@ -1,9 +1,5 @@
 package com.picklegames.gameStates;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Color;
@@ -22,7 +18,6 @@ import com.badlogic.gdx.utils.Array;
 import com.picklegames.entities.Fish;
 import com.picklegames.entities.FishAI;
 import com.picklegames.entities.FishState;
-import com.picklegames.entities.Food;
 import com.picklegames.game.FishGame;
 import com.picklegames.handlers.Animation;
 import com.picklegames.handlers.B2DVars;
@@ -30,6 +25,7 @@ import com.picklegames.handlers.Background;
 import com.picklegames.handlers.Boundary;
 import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.handlers.DayNightCycle;
+import com.picklegames.handlers.HUD;
 import com.picklegames.handlers.MyContactListener;
 import com.picklegames.managers.GameStateManager;
 
@@ -52,6 +48,8 @@ public class Level3 extends GameState {
 	private boolean isLevelFinish = false;
 
 	private Sprite trans;
+
+	private HUD hud;
 
 	public Level3(GameStateManager gsm) {
 		super(gsm);
@@ -84,7 +82,6 @@ public class Level3 extends GameState {
 
 		// load background
 		bg = new Background(game.getHudCam());
-		TextureRegion texR;
 		Texture tex;
 
 		// load layer 1
@@ -156,6 +153,7 @@ public class Level3 extends GameState {
 
 		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 20), 1000, 520, B2DVars.BIT_WALL,
 				B2DVars.BIT_PLAYER);
+		hud = new HUD(fisho);
 	}
 
 	@Override
@@ -191,36 +189,34 @@ public class Level3 extends GameState {
 				f.setFishState(FishState.DEAD);
 			}
 		}
-		
+
 		Array<Body> bodies = cl.getBodiesToRemove();
 		for (int i = 0; i < bodies.size; i++) {
-			//System.out.println("before remove food size : " + foods.size);
+			// System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
-			if(b.getUserData() instanceof FishAI){
-				FishAI fish = (FishAI)b.getUserData();
-				if(fish.isClicked()){
-					//fish.dispose();
+			if (b.getUserData() instanceof FishAI) {
+				FishAI fish = (FishAI) b.getUserData();
+				if (fish.isClicked()) {
+					// fish.dispose();
 					fishAIs.removeValue(fish, false);
 					game.getWorld().destroyBody(fish.getBody());
 					bodies.clear();
 					i--;
 				}
 			}
-			
-			
-			
+
 		}
 
-//		for (int i = 0; i < fishAIs.size(); i++) {
-//			FishAI f;
-//			f = fishAIs.get(i);
-//			
-//			if(f.isClicked()){
-//				//f.dispose();
-//				fishAIs.remove(f);
-//				game.getWorld().destroyBody(f.getBody());
-//			}
-//		}
+		// for (int i = 0; i < fishAIs.size(); i++) {
+		// FishAI f;
+		// f = fishAIs.get(i);
+		//
+		// if(f.isClicked()){
+		// //f.dispose();
+		// fishAIs.remove(f);
+		// game.getWorld().destroyBody(f.getBody());
+		// }
+		// }
 
 		// update cycle rotation
 		dayNightRotation += 0.08f;
@@ -261,6 +257,13 @@ public class Level3 extends GameState {
 			gsm.setState(GameStateManager.END);
 		}
 
+		if (fisho.getHealth() <= 0) {
+			GameStateManager.level = GameStateManager.LEVEL3;
+			gsm.setState(GameStateManager.DEAD);
+		}
+
+		hud.update(dt);
+
 	}
 
 	@Override
@@ -284,6 +287,7 @@ public class Level3 extends GameState {
 			font.draw(batch, "STOP!!", fisho.getWorldPosition().x - fisho.getWidth() / 2,
 					fisho.getWorldPosition().y + fisho.getHeight());
 		}
+		hud.renderHUD(batch);
 	}
 
 	public FishAI createFishAI(int x, int y, int state) {
@@ -312,10 +316,13 @@ public class Level3 extends GameState {
 	@Override
 	public void dispose() {
 		bg.dispose();
-		fisho.dispose();
-		for(FishAI fi: fishAIs){
-			fi.dispose();
+
+		for (int i = 0; i < fishAIs.size; i++) {
+			fishAIs.get(i).dispose();
+			fishAIs.removeIndex(i);
+			i--;
 		}
-		fishAIs.clear();
+		fisho.dispose();
+
 	}
 }

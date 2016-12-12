@@ -163,7 +163,7 @@ public class Level1 extends GameState{
 				B2DVars.BIT_PLAYER);
 		
 		// 
-		hud = new HUD(batch, fisho);
+		hud = new HUD(fisho);
 		
 	}
 
@@ -279,7 +279,13 @@ public class Level1 extends GameState{
 			FlashScreen.day = 2;
 			gsm.setState(GameStateManager.FLASH);
 		}
-
+		
+		if(fisho.getHealth() <= 0){
+			GameStateManager.level = GameStateManager.LEVEL1;
+			gsm.setState(GameStateManager.DEAD);
+			
+		}
+		hud.update(dt);
 	}
 
 	Random rand = new Random();
@@ -318,7 +324,7 @@ public class Level1 extends GameState{
 			font.draw(batch, "STOP!!", fisho.getWorldPosition().x - fisho.getWidth() / 2,
 					fisho.getWorldPosition().y + fisho.getHeight());
 		}
-		//hud.renderHUD();
+		hud.renderHUD(batch);
 	}
 
 	public FishAI createFishAI(int x, int y, int state) {
@@ -366,16 +372,18 @@ public class Level1 extends GameState{
 	public void dispose() {
 		bg.dispose();
 		fisho.dispose();
-		for(Food f : foods){
-			f.dispose();
-			foods.removeValue(f, true);
-			game.getWorld().destroyBody(f.getBody());
+
+		for(int i = 0; i < fishAIs.size(); i++){
+			fishAIs.get(i).dispose();
+			fishAIs.remove(i);
+			i--;
 		}
-		foods.clear();
-		for(FishAI fi: fishAIs){
-			fi.dispose();
-		}
-		fishAIs.clear();
 		
+		for(int i = 0; i < foods.size; i++){
+			foods.get(i).dispose();
+			foods.removeIndex(i);
+			i--;
+		}
+
 	}
 }

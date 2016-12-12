@@ -3,6 +3,7 @@ package com.picklegames.managers;
 import java.util.Stack;
 
 import com.picklegames.game.FishGame;
+import com.picklegames.gameStates.DeadScreen;
 import com.picklegames.gameStates.End;
 import com.picklegames.gameStates.FlashScreen;
 import com.picklegames.gameStates.GameState;
@@ -16,6 +17,7 @@ import com.picklegames.gameStates.Menu;
 // Dec 9, 2016
 public class GameStateManager {
 	private FishGame game;
+	public static int level;
 	private Stack<GameState> gameStates;
 
 	public static final int MENU = 123;
@@ -24,9 +26,9 @@ public class GameStateManager {
 	public static final int LEVEL2 = 360;
 	public static final int LEVEL3 = 1337;
 	public static final int FLASH = 104;
+	public static final int DEAD = 666;
 	public static final int INTRO = 711;
 	public static final int END = 6969;
-
 	public static final int DIALOGUE = 411;
 
 	public GameStateManager(FishGame game) {
@@ -34,7 +36,6 @@ public class GameStateManager {
 		gameStates = new Stack<GameState>();
 		
 		pushState(LEVEL2);
-
 
 	}
 
@@ -63,6 +64,8 @@ public class GameStateManager {
 			return new Level3(this);
 		} else if (state == FLASH) {
 			return new FlashScreen(this);
+		}else if (state == DEAD) {
+			return new DeadScreen(this);
 		}else if (state == INTRO) {
 			return new Intro(this);
 		}else if (state == END) {
