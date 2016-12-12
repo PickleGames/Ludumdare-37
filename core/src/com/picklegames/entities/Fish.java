@@ -3,7 +3,6 @@ package com.picklegames.entities;
 import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -66,12 +65,7 @@ public class Fish extends Entity {
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 			rotation += 10;
 		}
-		
-//		if(Gdx.input.isButtonPressed(Buttons.LEFT)){
-//			getTarget().x = Gdx.input.getX();
-//			getTarget().y = Gdx.graphics.getHeight() - Gdx.input.getY();
-//		}
-		
+				
 		if(getVelocity().x != 0 || getVelocity().y != 0){
 			getAnimation().setDelay(DELAY_MOVE);
 		}else{
@@ -96,26 +90,8 @@ public class Fish extends Entity {
 				getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(),
 				getFacing(), 1, rotation);
 	}
-	
-	
-	public void swimTo(float x2, float y2){
-		if(!(x2 - 5 < getWorldPosition().x && x2 + 5 > getWorldPosition().x &&
-			 y2 - 5 < getWorldPosition().y && y2 + 5 > getWorldPosition().y )){
-			
-			float X = (x2 - getWorldPosition().x);
-			float Y = (y2 - getWorldPosition().y);
-			float D = (float) Math.sqrt(X * X + Y * Y);
-			if(getBound().isInBoundary((int)getWorldPosition().x, (int)getWorldPosition().y)){
-				//System.out.println("swim");
-				getBody().setLinearVelocity(speed * (X / D), speed * (Y / D));			
-			}			
-		}else{
-			chill();
-			//getBody().setLinearVelocity(0 , 0);	
-		}
-	}
-	
-	public void swimTo(Stack<Vector2> target){
+		
+	private void swimTo(Stack<Vector2> target){
 		if(!target.isEmpty()){
 			Vector2 tar = target.peek();
 			if(!(tar.x - 5 < getWorldPosition().x && tar.x + 5 > getWorldPosition().x &&
@@ -144,6 +120,34 @@ public class Fish extends Entity {
 		}
 	}
 	
+//	private void swimTo(Stack<Entity> target, boolean lol){
+//		if(!target.isEmpty()){
+//			Vector2 tar = target.peek();
+//			if(!(tar.x - 5 < getWorldPosition().x && tar.x + 5 > getWorldPosition().x &&
+//			   tar.y - 5 < getWorldPosition().y && tar.y + 5 > getWorldPosition().y)){
+//				float X = (tar.x - getWorldPosition().x);
+//				float Y = (tar.y - getWorldPosition().y);
+//				float D = (float) Math.sqrt(X * X + Y * Y);
+//				if(getBound().isInBoundary((int)getWorldPosition().x, (int)getWorldPosition().y)){
+//					//System.out.println("swim");
+//					setVelocity(speed * (X / D), speed * (Y / D));			
+//				}	
+//				if(target.size() >= 50){
+//					while(!target.isEmpty()){
+//						target.pop();					
+//					}
+//					target.push(tar);
+//				}
+//			}else{
+//				while(!target.isEmpty()){
+//					target.pop();					
+//				}
+//			}
+//				
+//		}else{
+//			chill();
+//		}
+//	}
 	public void addTarget(float x, float y){
 		//Vector2 newT = new Vector2(x,y);
 		//if(!targets.isEmpty() && !targets.peek().equals(newT)){
