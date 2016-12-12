@@ -66,7 +66,7 @@ public class Play extends GameState {
 		//fisho.target = fisho.getWorldPosition();
 		
 		for(int i = 0; i < 10; i++){
-			fishAIs.add(createFishAI((int)(Math.random() * 500) + 50, (int)(Math.random() * 400)));
+			fishAIs.add(createFishAI((int)(Math.random() * 500) + 100, (int)(Math.random() * 400) + 100));
 		}
 		
 		
@@ -153,8 +153,8 @@ public class Play extends GameState {
 			f.update(dt);
 		}
 		
-		if(timeElapsed > .75f){
-			if(foods.size < 20){
+		if(timeElapsed > .05f){
+			if(foods.size < 200){
 				createFood();
 			}
 			timeElapsed = 0;
@@ -219,9 +219,9 @@ public class Play extends GameState {
 		Shape shape;
 		FixtureDef fdef;
 		Food f = new Food();
-		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 1000) + 20, (float) ( Math.random() * 100 ) + 430,
+		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 900) + 20, (float) ( Math.random() * 100 ) + 430,
 				BodyType.DynamicBody);
-		shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
+		shape = CreateBox2D.createCircleShape(5);
 		fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);
 		fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_WALL;
 		f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
