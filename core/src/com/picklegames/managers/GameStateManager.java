@@ -35,7 +35,11 @@ public class GameStateManager {
 		this.game = game;
 		gameStates = new Stack<GameState>();
 		
+<<<<<<< HEAD
 		pushState(MENU);
+=======
+		pushState(LEVEL1);
+>>>>>>> 5109f9331d7685202836ce49e244730728df75fe
 
 	}
 
