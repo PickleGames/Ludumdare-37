@@ -35,9 +35,10 @@ public class Bone extends Entity {
 
 	public void init() {
 		rand = new Random();
-		aliveT = new String[2];
+		aliveT = new String[3];
 		aliveT[0] = "IMMA HAUNT UR LIFE";
 		aliveT[1] = "Y U EAT ME BRUh";
+		aliveT[1] = "I DIE FOR UR SIN";
 		currentDialouge = "";
 		////////////////////////////////////////////////////////
 		font = new BitmapFont();

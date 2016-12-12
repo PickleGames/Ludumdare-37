@@ -26,16 +26,17 @@ public class FishAI extends Fish {
 	
 	public void init() {
 		rand = new Random();
-		aliveT = new String[4];
-		deadT = new String[2];
+		aliveT = new String[5];
+		deadT = new String[3];
 		aliveT[0] = "FIGHT FO UR LIFE";
 		aliveT[1] = "WHAT DO U WANT?";
 		aliveT[2] = "HEY, IM SWIMMING HERE!";
 		aliveT[3] = "GO AWAY!!";
+		aliveT[4] = "FISH LIFE MATTER";
 		
 		deadT[0] = "IM DEAD!!";
 		deadT[1] = "DONT EAT ME BRUH";
-		
+		deadT[2] = "RIP IN PIECES";
 		currentDialouge = "";
 		////////////////////////////////////////////////////////
 		font = new BitmapFont();
