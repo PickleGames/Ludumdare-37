@@ -22,7 +22,7 @@ public class End extends GameState{
 		// TODO Auto-generated method stub
 		font = new BitmapFont();
 		font.setColor(Color.GOLD);
-		font.getData().setScale(20);
+		font.getData().setScale(15);
 		
 		layout = new GlyphLayout();
 	}

@@ -189,37 +189,38 @@ public class Level3 extends GameState {
 				f.setFishState(FishState.DEAD);
 			}
 		}
-		
+
 		Array<Body> bodies = cl.getBodiesToRemove();
 		System.out.println(bodies.size);
 		for (int i = 0; i < bodies.size; i++) {
-			//System.out.println("before remove food size : " + foods.size);
+			// System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
-			FishAI fish = (FishAI)b.getUserData();
-			
-			if(fish.isClicked()){
-				//fish.dispose();
-				if (fisho.getEnergy() + 5 < 100) {
-					fisho.setEnergy(fisho.getEnergy() + 5);
+			if (b.getUserData() instanceof FishAI) {
+				FishAI fish = (FishAI) b.getUserData();
+				if (fish.isClicked()) {
+					// fish.dispose();
+					if (fisho.getEnergy() + 5 < 100) {
+						fisho.setEnergy(fisho.getEnergy() + 5);
+					}
+					fishAIs.removeValue(fish, false);
+					game.getWorld().destroyBody(fish.getBody());
+					bodies.clear();
+					i--;
 				}
-				fishAIs.removeValue(fish, false);
-				game.getWorld().destroyBody(fish.getBody());
-				bodies.clear();
-				i--;
 			}
-			
+
 		}
 
-//		for (int i = 0; i < fishAIs.size(); i++) {
-//			FishAI f;
-//			f = fishAIs.get(i);
-//			
-//			if(f.isClicked()){
-//				//f.dispose();
-//				fishAIs.remove(f);
-//				game.getWorld().destroyBody(f.getBody());
-//			}
-//		}
+		// for (int i = 0; i < fishAIs.size(); i++) {
+		// FishAI f;
+		// f = fishAIs.get(i);
+		//
+		// if(f.isClicked()){
+		// //f.dispose();
+		// fishAIs.remove(f);
+		// game.getWorld().destroyBody(f.getBody());
+		// }
+		// }
 
 		// update cycle rotation
 		dayNightRotation += 0.08f;
@@ -259,13 +260,12 @@ public class Level3 extends GameState {
 		if (isLevelFinish) {
 			gsm.setState(GameStateManager.END);
 		}
-		
 
-		if(fisho.getHealth() <= 0){
+		if (fisho.getHealth() <= 0) {
 			GameStateManager.level = GameStateManager.LEVEL3;
 			gsm.setState(GameStateManager.DEAD);
 		}
-		
+
 		hud.update(dt);
 
 	}
@@ -320,14 +320,13 @@ public class Level3 extends GameState {
 	@Override
 	public void dispose() {
 		bg.dispose();
-		for(int i = 0; i < fishAIs.size; i++){
+
+		for (int i = 0; i < fishAIs.size; i++) {
 			fishAIs.get(i).dispose();
 			fishAIs.removeIndex(i);
 			i--;
 		}
 		fisho.dispose();
-		
-		
 	}
 	
 }

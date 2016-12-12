@@ -252,7 +252,7 @@ public class Level2 extends GameState {
 		}
 
 		// update cycle rotation
-		dayNightRotation += 0.08f;
+		dayNightRotation += 1.2f;
 
 		// GOOD ENOUGH
 		if (dayNightRotation < 180) {
@@ -367,32 +367,19 @@ public class Level2 extends GameState {
 
 	@Override
 	public void dispose() {
-//		bg.dispose();
-//		for (int i = 0; i < fishAIs.size(); i++) {
-//			fishAIs.get(i).dispose();
-//			fishAIs.remove(i);
-//			i--;
-//		}
-//		fisho.dispose();
-//
-//		for (int i = 0; i < foods.size; i++) {
-//			foods.get(i).dispose();
-//			foods.removeIndex(i);
-//			i--;
-//		}
-
 		bg.dispose();
+		for (int i = 0; i < fishAIs.size(); i++) {
+			fishAIs.get(i).dispose();
+			fishAIs.remove(i);
+			i--;
+		}
 		fisho.dispose();
-		for (Food f : foods) {
-			f.dispose();
-			foods.removeValue(f, true);
-			game.getWorld().destroyBody(f.getBody());
+
+		for (int i = 0; i < foods.size; i++) {
+			foods.get(i).dispose();
+			foods.removeIndex(i);
+			i--;
 		}
-		foods.clear();
-		for (FishAI fi : fishAIs) {
-			fi.dispose();
-		}
-		fishAIs.clear();
 		cl.getBodiesToHelp().clear();
 		cl.getBodiesToRemove().clear();
 	}

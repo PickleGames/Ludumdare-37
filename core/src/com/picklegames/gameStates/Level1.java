@@ -371,17 +371,19 @@ public class Level1 extends GameState{
 	@Override
 	public void dispose() {
 		bg.dispose();
+		fisho.dispose();
+
 		for(int i = 0; i < fishAIs.size(); i++){
 			fishAIs.get(i).dispose();
 			fishAIs.remove(i);
 			i--;
 		}
-		fisho.dispose();
 		
 		for(int i = 0; i < foods.size; i++){
 			foods.get(i).dispose();
 			foods.removeIndex(i);
 			i--;
 		}
+
 	}
 }
