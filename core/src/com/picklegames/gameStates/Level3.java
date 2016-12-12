@@ -196,15 +196,18 @@ public class Level3 extends GameState {
 		for (int i = 0; i < bodies.size; i++) {
 			//System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
-			FishAI fish = (FishAI)b.getUserData();
-			
-			if(fish.isClicked()){
-				//fish.dispose();
-				fishAIs.removeValue(fish, false);
-				game.getWorld().destroyBody(fish.getBody());
-				bodies.clear();
-				i--;
+			if(b.getUserData() instanceof FishAI){
+				FishAI fish = (FishAI)b.getUserData();
+				if(fish.isClicked()){
+					//fish.dispose();
+					fishAIs.removeValue(fish, false);
+					game.getWorld().destroyBody(fish.getBody());
+					bodies.clear();
+					i--;
+				}
 			}
+			
+			
 			
 		}
 
@@ -309,5 +312,10 @@ public class Level3 extends GameState {
 	@Override
 	public void dispose() {
 		bg.dispose();
+		fisho.dispose();
+		for(FishAI fi: fishAIs){
+			fi.dispose();
+		}
+		fishAIs.clear();
 	}
 }

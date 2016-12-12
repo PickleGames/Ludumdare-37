@@ -365,5 +365,17 @@ public class Level1 extends GameState{
 	@Override
 	public void dispose() {
 		bg.dispose();
+		fisho.dispose();
+		for(Food f : foods){
+			f.dispose();
+			foods.removeValue(f, true);
+			game.getWorld().destroyBody(f.getBody());
+		}
+		foods.clear();
+		for(FishAI fi: fishAIs){
+			fi.dispose();
+		}
+		fishAIs.clear();
+		
 	}
 }
