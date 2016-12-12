@@ -9,7 +9,6 @@ import com.picklegames.gameStates.Level1;
 import com.picklegames.gameStates.Level2;
 import com.picklegames.gameStates.Level3;
 import com.picklegames.gameStates.Menu;
-import com.picklegames.gameStates.Play;
 
 // Miguel Garnica
 // Dec 9, 2016
@@ -49,8 +48,6 @@ public class GameStateManager {
 
 		if (state == MENU) {
 			return new Menu(this);
-		} else if (state == PLAY) {
-			return new Play(this);
 		}else if (state == LEVEL1) {
 			return new Level1(this);
 		}else if (state == LEVEL2) {

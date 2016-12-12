@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -49,6 +50,8 @@ public class Level1 extends GameState{
 	private Boundary bound;
 	private Array<Food> foods;
 	private boolean isLevelFinish = false;
+	
+	private Sprite trans;
 	
 	public Level1(GameStateManager gsm) {
 		super(gsm);
@@ -120,6 +123,11 @@ public class Level1 extends GameState{
 		anime5.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
 		bg.addImage(anime5, 720, 300, anime5.getFrame().getRegionWidth(), anime5.getFrame().getRegionHeight());
 		
+//		Animation anime7 = new Animation();
+//		FishGame.res.loadTexture("images/daynight.png", "daynight");
+//		tex = FishGame.res.getTexture("daynight");
+//		anime5.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
+//		bg.addImage(anime5, 0, 0, hudCam.viewportWidth, hudCam.viewportHeight);
 
 				
 		// load layer 2
@@ -129,6 +137,11 @@ public class Level1 extends GameState{
 		anime6.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
 		bg.addImage(anime6, 0, 0, hudCam.viewportWidth * 1.1f, hudCam.viewportHeight * 1.3f);
 
+		FishGame.res.loadTexture("images/daynight.png", "daynight");
+		tex = FishGame.res.getTexture("daynight");
+		trans = new Sprite(tex);
+		trans.setSize(hudCam.viewportWidth, hudCam.viewportHeight);
+		
 		// load food
 		foods = new Array<Food>();
 
@@ -156,7 +169,7 @@ public class Level1 extends GameState{
 	}
 
 	float timeElapsed = 0;
-
+	float alpha;
 	@Override
 	public void update(float dt) {
 		timeElapsed += dt;
@@ -219,9 +232,7 @@ public class Level1 extends GameState{
 		
 		// update food
 		for (int i = 0; i < foods.size; i++) {
-
 			Food f = foods.get(i);
-
 			f.update(dt);
 
 		}
@@ -235,7 +246,19 @@ public class Level1 extends GameState{
 		}
 
 		// update cycle rotation
-		dayNightRotation += 0.05f;
+		dayNightRotation += 0.08f;
+
+		//GOOD ENOUGH
+		if(dayNightRotation < 180){
+			alpha += 0.0003f;
+		}else{
+			alpha -= 0.0003f;
+		}
+		///////////
+		
+		System.out.println("alpha : " + alpha);
+		trans.setAlpha(alpha);
+		
 		System.out.println(dayNightRotation);
 		if(dayNightRotation >= 358){
 			isLevelFinish = true;
@@ -277,6 +300,8 @@ public class Level1 extends GameState{
 		for (FishAI f : fishAIs) {
 			f.render(batch);
 		}
+		
+		trans.draw(batch);
 
 		if (fisho.isClicked()) {
 			font.draw(batch, "STOP!!", fisho.getWorldPosition().x - fisho.getWidth() / 2,
@@ -327,6 +352,6 @@ public class Level1 extends GameState{
 
 	@Override
 	public void dispose() {
-		
+		bg.dispose();
 	}
 }

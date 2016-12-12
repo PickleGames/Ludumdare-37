@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 // Miguel Garnica
@@ -38,9 +38,15 @@ public class Background {
 		}
 	}
 
-//	public void replaceLayer(int layer, TextureRegion tex){
-//		this.images.get(layer).setRegion(tex);
-//	}
+	public void replaceLayer(int layer, Animation animate){
+		this.images.set(layer - 1, images.get(layer - 1));
+	}
+	
+	public void setAlphaTexture(int layer, int a){
+		Sprite s = new Sprite(this.images.get(layer - 1).getFrame());
+		s.setAlpha(a);
+		this.images.get(layer - 1).getFrame().setTexture(s.getTexture());
+	}
 	
 	public void render(SpriteBatch batch) {
 		
@@ -53,6 +59,8 @@ public class Background {
 	}
 
 	public void dispose() {
-
+		for (int i = 0; i < images.size(); i++) {
+			images.get(i).dispose();;
+		}
 	}
 }
