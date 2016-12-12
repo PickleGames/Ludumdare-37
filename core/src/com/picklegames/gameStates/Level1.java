@@ -140,6 +140,12 @@ public class Level1 extends GameState{
 		anime6.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
 		bg.addImage(anime6, 0, 0, hudCam.viewportWidth * 1.1f, hudCam.viewportHeight * 1.3f);
 
+//		Animation anime7 = new Animation();
+//		FishGame.res.loadTexture("images/Chair.png", "chair");
+//		tex = FishGame.res.getTexture("chair");
+//		anime5.setFrames(TextureRegion.split(tex, tex.getWidth(), tex.getHeight())[0], 0);
+//		bg.addImage(anime5, 720, 300, anime5.getFrame().getRegionWidth(), anime5.getFrame().getRegionHeight());
+//		
 		FishGame.res.loadTexture("images/daynight.png", "daynight");
 		tex = FishGame.res.getTexture("daynight");
 		trans = new Sprite(tex);
