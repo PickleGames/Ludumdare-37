@@ -30,6 +30,7 @@ import com.picklegames.handlers.Background;
 import com.picklegames.handlers.Boundary;
 import com.picklegames.handlers.CreateBox2D;
 import com.picklegames.handlers.DayNightCycle;
+import com.picklegames.handlers.HUD;
 import com.picklegames.handlers.MyContactListener;
 import com.picklegames.managers.GameStateManager;
 
@@ -53,13 +54,14 @@ public class Level1 extends GameState{
 	private boolean isLevelFinish = false;
 	
 	private Sprite trans;
-	
+	private HUD hud;
 	public Level1(GameStateManager gsm) {
 		super(gsm);
 	}
 
 	@Override
 	public void init() {
+		
 		fishtankID = 1;
 		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
 		fishAIs = new ArrayList<FishAI>();
@@ -72,7 +74,7 @@ public class Level1 extends GameState{
 		fisho.setBound(bound);
 		fisho.addTarget(300, 200);
 		// fisho.target = fisho.getWorldPosition();
-
+		
 		for (int i = 0; i < 15; i++) {
 			fishAIs.add(createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.ALIVE));
 		}
@@ -159,6 +161,10 @@ public class Level1 extends GameState{
 
 		CreateBox2D.createBoxBoundary(game.getWorld(), new Vector2(10, 20), 1000, 520, B2DVars.BIT_WALL,
 				B2DVars.BIT_PLAYER);
+		
+		// 
+		hud = new HUD(batch, fisho);
+		
 	}
 
 	@Override
@@ -312,6 +318,7 @@ public class Level1 extends GameState{
 			font.draw(batch, "STOP!!", fisho.getWorldPosition().x - fisho.getWidth() / 2,
 					fisho.getWorldPosition().y + fisho.getHeight());
 		}
+		//hud.renderHUD();
 	}
 
 	public FishAI createFishAI(int x, int y, int state) {

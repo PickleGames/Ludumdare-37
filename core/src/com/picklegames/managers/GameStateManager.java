@@ -35,6 +35,7 @@ public class GameStateManager {
 		
 		pushState(MENU);
 
+
 	}
 
 	public FishGame game() {

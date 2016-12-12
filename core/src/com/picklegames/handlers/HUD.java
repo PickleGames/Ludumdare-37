@@ -10,22 +10,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.picklegames.entities.Fish;
 import com.picklegames.game.FishGame;
 // Harris Yun, Miguel Garnica
 // Dec 10, 2016
 public class HUD {
 	public Stage stage;
 	private Viewport viewport;
-	
+	private SpriteBatch batch;
 	public int energy = 20;
 	public int hunger = 20;
+	private Fish fish;
 	private Table table = new Table();
 	private Label.LabelStyle style1 = new Label.LabelStyle(new BitmapFont(), Color.BLACK);
 	
 	private Label energyLabel, energyTitleLabel, hungerLabel, hungerTitleLabel;
 	
-	public HUD(SpriteBatch batch) {
-		
+	public HUD(SpriteBatch batch, Fish fish) {
+		this.fish = fish;
+		this.batch = batch;
 		//create a viewport the size of the screen
 		viewport = new FitViewport(FishGame.V_WIDTH, FishGame.V_HEIGHT, FishGame.hudCam);
 		stage = new Stage(viewport, batch);

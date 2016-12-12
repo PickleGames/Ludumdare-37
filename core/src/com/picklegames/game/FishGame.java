@@ -27,7 +27,7 @@ public class FishGame extends ApplicationAdapter {
 	public static OrthographicCamera hudCam;
 	private GameStateManager gsm;
 
-	private HUD hud;
+
 	
 	private Box2DDebugRenderer bdr;
 
@@ -45,7 +45,7 @@ public class FishGame extends ApplicationAdapter {
 
 		hudCam = new OrthographicCamera();
 		hudCam.setToOrtho(false, V_WIDTH / SCALE, V_HEIGHT / SCALE);
-		hud = new HUD(batch);
+		
 
 		// load up game
 		gsm = new GameStateManager(this);
@@ -65,7 +65,6 @@ public class FishGame extends ApplicationAdapter {
 		batch.begin();
 		gsm.render();
 		batch.end();
-		//hud.renderHUD();
 
 		if (DEBUG) {
 			bdr.render(world, cam.combined.scl(B2DVars.PPM));

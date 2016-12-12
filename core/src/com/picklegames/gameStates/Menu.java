@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.picklegames.game.FishGame;
+
 import com.picklegames.managers.GameStateManager;
 
 // Miguel Garnica
@@ -19,7 +20,7 @@ public class Menu extends GameState{
 	
 	public Menu(GameStateManager gsm) {
 		super(gsm);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
@@ -37,7 +38,7 @@ public class Menu extends GameState{
 
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -54,6 +55,7 @@ public class Menu extends GameState{
 	public void render() {
 		// TODO Auto-generated method stub
 		batch.draw(tex, 0, 0, cam.viewportWidth, cam.viewportHeight);
+
 		
 		layout.setText(font, "PRESS ENTER BROSKI");
 		font.draw(batch, "PRESS ENTER BROSKI", cam.viewportWidth/2 - layout.width/2, cam.viewportHeight - layout.height/2);
