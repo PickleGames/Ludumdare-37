@@ -60,7 +60,7 @@ public class Play extends GameState {
 		fishAIs = new ArrayList<FishAI>();
 		fishtankID = 3;
 		// load fish
-		fisho = new Fish();
+		fisho = new Fish(Fish.FishState.ALIVE);
 		createFishBody();
 		fisho.setBound(bound);
 		fisho.addTarget(300, 200);
@@ -220,7 +220,7 @@ public class Play extends GameState {
 	}
 
 	public FishAI createFishAI(int x, int y) {
-		FishAI fish = new FishAI();
+		FishAI fish = new FishAI(Fish.FishState.ALIVE);
 		BodyDef bdef = CreateBox2D.createBodyDef(x, y, BodyType.DynamicBody);
 		Shape shape = CreateBox2D.createCircleShape(fish.getWidth() / 2);
 		FixtureDef fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_PLAYER, B2DVars.BIT_WALL);

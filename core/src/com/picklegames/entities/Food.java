@@ -49,8 +49,12 @@ public class Food extends Entity {
 		}
 	}
 	
+	float veloY = -.45f;
 	public void drop(){
-		getBody().setLinearVelocity((float) Math.random() * 2 -1, -.45f);
+		if(getWorldPosition().y < 50){
+			veloY = 0;
+		}
+		getBody().setLinearVelocity((float) Math.random() * 2 -1, veloY );
 	}
 
 }

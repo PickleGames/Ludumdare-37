@@ -9,20 +9,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.picklegames.entities.FishAI.FishState;
 import com.picklegames.game.FishGame;
 import com.picklegames.handlers.Boundary;
 
 // Miguel Garnica
 // Dec 10, 2016
 public class Fish extends Entity {
-
-	public Stack<Vector2> getTargets() {
-		return targets;
+	public enum FishState{
+		ALIVE, DEAD
 	}
+	public FishState fishState;
 
-	public void setTargets(Stack<Vector2> targets) {
-		this.targets = targets;
-	}
 
 	public static final float DELAY_STOP = 1/3f;
 	public static final float DELAY_MOVE = 1/12f;
@@ -32,18 +30,31 @@ public class Fish extends Entity {
 	private float rotation = 0;
 	private float speed = 1.5f;
 	private Stack<Vector2> targets;
-	public Fish() {
+	
+	public Fish(FishState state) {
 		super();
+		this.fishState = FishState.ALIVE;
+		init();
+
 	}
 
 	public Fish(Body body, Boundary bound) {
 		super(body, bound);
+		init();
 	}
 
 	public void init() {
 
 		FishGame.res.loadTexture("images/fish1.png", "fish");
-		setTex(FishGame.res.getTexture("fish"));
+		FishGame.res.loadTexture("images/fish1_dead.png", "fish_dead");
+		
+		System.out.println(fishState);
+		if(fishState == FishState.ALIVE){
+			setTex(FishGame.res.getTexture("fish"));
+		}else{
+			setTex(FishGame.res.getTexture("fish_dead"));
+		}
+
 
 		setTexR(TextureRegion.split(getTex(), 250, 250)[0]);
 		setAnimation(getTexR(), DELAY_STOP);
@@ -74,7 +85,10 @@ public class Fish extends Entity {
 		
 		//System.out.println(target);
 		//swimTo(getTarget().x, getTarget().y);
-		swimTo(targets);
+		if(fishState == FishState.ALIVE){
+			System.out.println("im alive");
+			swimTo(targets);
+		}
 		//swim(); 
 	}
 
@@ -92,7 +106,7 @@ public class Fish extends Entity {
 	}
 		
 	private void swimTo(Stack<Vector2> target){
-		if(!target.isEmpty()){
+		if(!target.isEmpty() && fishState == FishState.ALIVE){
 			Vector2 tar = target.peek();
 			if(!(tar.x - 5 < getWorldPosition().x && tar.x + 5 > getWorldPosition().x &&
 			   tar.y - 5 < getWorldPosition().y && tar.y + 5 > getWorldPosition().y)){
@@ -160,6 +174,22 @@ public class Fish extends Entity {
 		//getBody().setLinearVelocity((float) 0, (float) 0);
 	}
 
+	public FishState getFishState() {
+		return fishState;
+	}
+
+	public void setFishState(FishState fishState) {
+		this.fishState = fishState;
+	}
+
+	public Stack<Vector2> getTargets() {
+		return targets;
+	}
+
+	public void setTargets(Stack<Vector2> targets) {
+		this.targets = targets;
+	}
+	
 	public int getFacing() {
 		return facing;
 	}

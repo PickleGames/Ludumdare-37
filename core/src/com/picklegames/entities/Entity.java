@@ -31,10 +31,7 @@ public abstract class Entity {
 		this.animation = new Animation();
 		this.mouseVec = new Vector3();
 		this.bound = bound;
-		this.init();
 	}
-
-	public abstract void init();
 	
 	public void setBody(Body body) {
 		this.body = body;
