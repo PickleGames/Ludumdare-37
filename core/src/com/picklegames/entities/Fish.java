@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -30,8 +31,16 @@ public class Fish extends Entity {
 	private Texture tex;
 	private TextureRegion[] texR;
 	private float rotation = 0;
-	private float speed = 1.5f;
+	private final float MAX_SPEED = 4f;
+	private float speed = 4;
 	private Stack<Vector2> targets;
+	
+	private final float MAX_HP = 200;
+	private float health = 0;
+	private float energy = 100;
+	
+	private BitmapFont font = new BitmapFont();
+	
 	public Fish() {
 		super();
 	}
@@ -41,7 +50,7 @@ public class Fish extends Entity {
 	}
 
 	public void init() {
-
+		
 		FishGame.res.loadTexture("images/fish1.png", "fish");
 		setTex(FishGame.res.getTexture("fish"));
 
@@ -55,13 +64,17 @@ public class Fish extends Entity {
 		setFacing(1);
 		this.targets = new Stack<Vector2>();
 		
+		health = MAX_HP;
+		speed = MAX_SPEED;
+		
 	}
 
-
+	float timeElap = 0;;
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-
+		timeElap += dt;
+		
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 			rotation += 10;
 		}
@@ -76,6 +89,18 @@ public class Fish extends Entity {
 		//swimTo(getTarget().x, getTarget().y);
 		swimTo(targets);
 		//swim(); 
+		
+		// lower energy
+		if(timeElap > .75f){
+			energy -=5;
+			timeElap = 0;
+		}
+		
+		if(energy < 50){
+			health -= .05f;
+		}
+		
+		speed = (energy/100) * MAX_SPEED;
 	}
 
 	@Override
@@ -89,6 +114,9 @@ public class Fish extends Entity {
 		batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
 				getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(),
 				getFacing(), 1, rotation);
+		
+		font.draw(batch, "HP: " + health + "S: " + speed + "E: " + energy, getWorldPosition().x, getWorldPosition().y + getHeight()/2);
+	
 	}
 		
 	private void swimTo(Stack<Vector2> target){
@@ -184,5 +212,20 @@ public class Fish extends Entity {
 		this.texR = texR;
 	}
 
+	public float getHealth() {
+		return health;
+	}
+
+	public void setHealth(float health) {
+		this.health = health;
+	}
+
+	public float getMAX_HP() {
+		return MAX_HP;
+	}
+
+	public float getEnergy() {
+		return energy;
+	}
 
 }

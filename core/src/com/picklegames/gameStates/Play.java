@@ -138,8 +138,8 @@ public class Play extends GameState {
 			if (foods.size > 0) {
 				if (f.getTargets().isEmpty()) {
 					Food foo = getRandFood();
-					if(foo != null){
-						f.addFoodTarget(foo);						
+					if (foo != null) {
+						f.addFoodTarget(foo);
 					}
 				}
 			}
@@ -150,16 +150,19 @@ public class Play extends GameState {
 		for (int i = 0; i < bodies.size; i++) {
 			System.out.println("before remove food size : " + foods.size);
 			Body b = bodies.get(i);
-			Food f = (Food)b.getUserData();
+			Food f = (Food) b.getUserData();
 			f.dispose();
 			foods.removeValue(f, true);
 			game.getWorld().destroyBody(b);
 			System.out.println("after remove food size : " + foods.size);
 			bodies.clear();
 			i--;
+			if (fisho.getHealth() < fisho.getMAX_HP() + 5) {
+				fisho.setHealth(fisho.getHealth() + 5);
+			}
 		}
 		System.out.println("after body clear food size : " + foods.size);
-		
+
 		// update food
 		for (int i = 0; i < foods.size; i++) {
 			System.out.println("food update food size : " + foods.size);
@@ -183,6 +186,7 @@ public class Play extends GameState {
 	}
 
 	Random rand = new Random();
+
 	private Food getRandFood() {
 		System.out.println("get rand food size : " + foods.size);
 		if (foods.size > 0) {
@@ -249,10 +253,9 @@ public class Play extends GameState {
 		Shape shape;
 		FixtureDef fdef;
 		Food f = new Food();
-		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 600) + 100, 
-										 (float) (Math.random() * 100) + 330,
+		bdef = CreateBox2D.createBodyDef((float) (Math.random() * 600) + 100, (float) (Math.random() * 100) + 330,
 				BodyType.DynamicBody);
-		shape = CreateBox2D.createCircleShape(f.getWidth() /2 );
+		shape = CreateBox2D.createCircleShape(f.getWidth() / 2);
 		fdef = CreateBox2D.createFixtureDef(shape, B2DVars.BIT_FOOD, B2DVars.BIT_PLAYER);
 		fdef.filter.maskBits = B2DVars.BIT_PLAYER | B2DVars.BIT_WALL;
 		f.setBody(CreateBox2D.createBody(game.getWorld(), bdef, fdef, "food"));
@@ -263,7 +266,7 @@ public class Play extends GameState {
 
 	@Override
 	public void dispose() {
-		
+
 	}
 
 }
