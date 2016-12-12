@@ -35,7 +35,8 @@ public class GameStateManager {
 		this.game = game;
 		gameStates = new Stack<GameState>();
 		
-		pushState(MENU);
+		pushState(LEVEL3);
+
 	}
 
 	public FishGame game() {
