@@ -250,7 +250,9 @@ public class Level1 extends GameState{
 
 		//GOOD ENOUGH
 		if(dayNightRotation < 180){
-			alpha += 0.0003f;
+			if(alpha + 0.00035 < 1){
+				alpha += 0.00035f;
+			}
 		}else{
 			alpha -= 0.0003f;
 		}
