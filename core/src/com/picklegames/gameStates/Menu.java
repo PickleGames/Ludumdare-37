@@ -1,14 +1,16 @@
 package com.picklegames.gameStates;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.picklegames.managers.GameStateManager;
 
 // Miguel Garnica
 // Dec 9, 2016
 public class Menu extends GameState{
-
+	private Texture background;
+	
 	public Menu(GameStateManager gsm) {
 		super(gsm);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
@@ -19,7 +21,7 @@ public class Menu extends GameState{
 
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -31,7 +33,7 @@ public class Menu extends GameState{
 
 	@Override
 	public void render() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
