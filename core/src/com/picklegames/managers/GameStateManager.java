@@ -29,7 +29,7 @@ public class GameStateManager {
 		this.game = game;
 		gameStates = new Stack<GameState>();
 		
-		pushState(FLASH);
+		pushState(LEVEL3);
 
 	}
 

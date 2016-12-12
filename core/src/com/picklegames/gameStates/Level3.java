@@ -48,7 +48,7 @@ public class Level3 extends GameState {
 	private DayNightCycle dayNight;
 	private float dayNightRotation = 0;
 	private Boundary bound;
-	private List<FishAI> fishAIs;
+	private Array<FishAI> fishAIs;
 	private boolean isLevelFinish = false;
 
 	private Sprite trans;
@@ -61,7 +61,7 @@ public class Level3 extends GameState {
 	public void init() {
 
 		bound = new Boundary(50, 50, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
-		fishAIs = new ArrayList<FishAI>();
+		fishAIs = new Array<FishAI>();
 
 		fishtankID = 3;
 
@@ -73,9 +73,10 @@ public class Level3 extends GameState {
 		// fisho.target = fisho.getWorldPosition();
 
 		for (int i = 0; i < 10; i++) {
-			fishAIs.add(createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.DEAD));
+			fishAIs.add(
+					createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.DEAD));
 		}
-		
+
 		// load font
 		font = new BitmapFont();
 		font.setColor(Color.GOLD);
@@ -190,6 +191,33 @@ public class Level3 extends GameState {
 				f.setFishState(FishState.DEAD);
 			}
 		}
+		
+		Array<Body> bodies = cl.getBodiesToRemove();
+		for (int i = 0; i < bodies.size; i++) {
+			//System.out.println("before remove food size : " + foods.size);
+			Body b = bodies.get(i);
+			FishAI fish = (FishAI)b.getUserData();
+			
+			if(fish.isClicked()){
+				//fish.dispose();
+				fishAIs.removeValue(fish, false);
+				game.getWorld().destroyBody(fish.getBody());
+				bodies.clear();
+				i--;
+			}
+			
+		}
+
+//		for (int i = 0; i < fishAIs.size(); i++) {
+//			FishAI f;
+//			f = fishAIs.get(i);
+//			
+//			if(f.isClicked()){
+//				//f.dispose();
+//				fishAIs.remove(f);
+//				game.getWorld().destroyBody(f.getBody());
+//			}
+//		}
 
 		// update cycle rotation
 		dayNightRotation += 0.08f;
