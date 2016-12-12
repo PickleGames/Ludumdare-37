@@ -75,7 +75,7 @@ public class Level1 extends GameState{
 		fisho.addTarget(300, 200);
 		// fisho.target = fisho.getWorldPosition();
 		
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 1; i++) {
 			fishAIs.add(createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100, FishState.ALIVE));
 		}
 		

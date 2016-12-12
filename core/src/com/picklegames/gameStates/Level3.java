@@ -365,6 +365,7 @@ public class Level3 extends GameState {
 			bones.remove(i);
 			i--;
 		}
+		FishGame.res.getMusic("level3").stop();
 	}
 	
 }

@@ -1,7 +1,10 @@
 package com.picklegames.entities;
 
+import java.util.Random;
 import java.util.Stack;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.picklegames.game.FishGame;
@@ -10,11 +13,28 @@ public class FishAI extends Fish {
 	public FishAI(int state) {
 		super(state);
 	}
-
+	
 	private Food foodTarget;
- 
+	private String[] aliveT;
+	private String[] deadT;
+	private String currentDialouge;
+	
+	private BitmapFont font;
+	private float timerText;
 	
 	public void init() {
+		aliveT = new String[2];
+		deadT = new String[2];
+		aliveT[0] = "FIGHT FO UR LIFE";
+		aliveT[1] = "WHAT DO U WANT?";
+		
+		deadT[0] = "IM DEAD!!";
+		deadT[1] = "DONT EAT ME BRUH";
+		
+		currentDialouge = "";
+		////////////////////////////////////////////////////////
+		font = new BitmapFont();
+		
 		FishGame.res.loadTexture("images/fish2.png", "fish2");
 		FishGame.res.loadTexture("images/fish2_dead.png", "fish2_dead");
 		
@@ -41,9 +61,26 @@ public class FishAI extends Fish {
 	}
 
 	boolean isDead = false;
+	boolean isSetDialouge = false;
 	public void update(float dt) {
 		super.update(dt);
-
+		
+		System.out.println("isClciked: " + isClicked());
+		
+		if(isClicked() && !isSetDialouge){
+			currentDialouge = getDialouge(getFishState());
+		}
+		
+		if(!currentDialouge.isEmpty()){
+			timerText += dt;
+		}
+		
+		if(timerText > 2f){
+			timerText = 0;
+			isSetDialouge = false;
+			currentDialouge = "";
+		}
+		
 		System.out.println("food target " + getTargets().size());
 		if(!getTargets().isEmpty()){
 			System.out.println("food target " + getTargets().peek());			
@@ -57,8 +94,25 @@ public class FishAI extends Fish {
 			setHeight(getHeight() * .25f);
 			isDead = true;
 		}
+		
 	}
 
+	Random rand = new Random();
+	private String getDialouge(int state){
+		if(state == FishState.ALIVE){
+			int num = rand.nextInt(aliveT.length);
+			return aliveT[num];
+		}else{
+			int num = rand.nextInt(deadT.length);
+			return deadT[num];
+		}
+	}
+	
+	public void render(SpriteBatch batch){
+		super.render(batch);
+		font.draw(batch, currentDialouge, getWorldPosition().x , getWorldPosition().y);
+	}
+	
 	public void addFoodTarget(Food target) {
 		System.out.println("food aquired");
 		if(this.foodTarget == null){
