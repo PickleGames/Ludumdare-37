@@ -62,7 +62,7 @@ public class Level3 extends GameState {
 	@Override
 	public void init() {
 
-		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
+		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .95f), (int) (Gdx.graphics.getHeight() * .70f));
 		fishAIs = new Array<FishAI>();
 		bones = new ArrayList<Bone>();
 

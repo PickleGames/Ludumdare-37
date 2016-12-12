@@ -14,8 +14,8 @@ public class End extends GameState{
 	private BitmapFont font;
 	public GlyphLayout layout;
 	
-	private Texture[] backgrounds;
 	private int currentTextureId =1;
+	private String[] words;
 	
 	public End(GameStateManager gsm) {
 		super(gsm);
@@ -26,8 +26,8 @@ public class End extends GameState{
 	public void init() {
 		// TODO Auto-generated method stub
 		font = new BitmapFont();
+		font.getData().setScale(3);
 		font.setColor(Color.GOLD);
-		font.getData().setScale(5);
 		layout = new GlyphLayout();
 		
 		FishGame.res.loadMusic("musics/youdead.mp3", "end");
@@ -38,6 +38,10 @@ public class End extends GameState{
 		FishGame.res.loadTexture("images/end2.png", "end2");
 		FishGame.res.loadTexture("images/end3.png", "end3");
 		
+		words = new String[3];
+		words[0] = "Oh no, my owner is dead, the jam killed him";
+		words[1] = "This is it for me...";
+		words[2] = "Goodbye, cruel world";
 		///backgrounds = new Texture[3];
 		//backgrounds[];
 	}
@@ -53,7 +57,7 @@ public class End extends GameState{
 	public void update(float dt) {
 		// TODO Auto-generated method stub
 		timeElapsed +=dt;
-		if(timeElapsed > 4f){
+		if(timeElapsed > 5f){
 			if(currentTextureId < 3){
 				currentTextureId++;
 			}
@@ -72,6 +76,8 @@ public class End extends GameState{
 		if(currentTextureId == 3){
 			font.draw(batch, "THE END", cam.viewportWidth/2 + layout.width/2, cam.viewportHeight/2 + layout.height /2);
 		}
+		layout.setText(font, words[currentTextureId -1]);
+		font.draw(batch, words[currentTextureId -1] , cam.viewportWidth/2 - layout.width/2, cam.viewportHeight - layout.height);
 	}
 
 	@Override

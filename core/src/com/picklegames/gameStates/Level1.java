@@ -63,7 +63,7 @@ public class Level1 extends GameState{
 	public void init() {
 		
 		fishtankID = 1;
-		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .90f), (int) (Gdx.graphics.getHeight() * .70f));
+		bound = new Boundary(10, 10, (int) (Gdx.graphics.getWidth() * .95f), (int) (Gdx.graphics.getHeight() * .70f));
 		fishAIs = new ArrayList<FishAI>();
 
 		fishtankID = 1;

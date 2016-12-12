@@ -48,8 +48,7 @@ public class Menu extends GameState{
 	public void update(float dt) {
 		// TODO Auto-generated method stub
 		if(Gdx.input.isKeyPressed(Keys.ENTER)){
-			FlashScreen.day +=1;
-			gsm.setState(GameStateManager.FLASH);
+			gsm.setState(GameStateManager.INTRO);
 		}
 	}
 
