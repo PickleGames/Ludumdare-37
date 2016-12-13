@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.picklegames.game.FishGame;
 import com.picklegames.managers.GameStateManager;
 
@@ -16,6 +17,7 @@ public class Menu extends GameState{
 	private Texture tex;
 	private BitmapFont font;
 	private GlyphLayout layout;
+
 	
 	public Menu(GameStateManager gsm) {
 		super(gsm);
@@ -36,6 +38,8 @@ public class Menu extends GameState{
 		FishGame.res.loadMusic("musics/mainmenu.mp3", "menu");
 		FishGame.res.getMusic("menu").setLooping(true);
 		FishGame.res.getMusic("menu").play();
+
+
 	}
 
 	@Override
@@ -46,10 +50,11 @@ public class Menu extends GameState{
 
 	@Override
 	public void update(float dt) {
-		// TODO Auto-generated method stub
+
 		if(Gdx.input.isKeyPressed(Keys.ENTER)){
 			gsm.setState(GameStateManager.INTRO);
 		}
+
 	}
 
 	@Override
@@ -58,6 +63,7 @@ public class Menu extends GameState{
 		batch.draw(tex, 0, 0, cam.viewportWidth, cam.viewportHeight);
 		layout.setText(font, "PRESS ENTER BROSKI");
 		font.draw(batch, "PRESS ENTER BROSKI", cam.viewportWidth/2 - layout.width/2, cam.viewportHeight - layout.height/2);
+		
 	}
 
 	@Override

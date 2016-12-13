@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -33,11 +34,14 @@ public class Fish extends Entity {
 
 	private float health = 0;
 	private float energy = 100;
-
+	private ParticleEffect bubbleEff;
+	
 	public Fish(int state) {
 
 		super();
 		this.fishState = state;
+		bubbleEff = new ParticleEffect();
+		bubbleEff.load(Gdx.files.internal("particle/bubble.par"), Gdx.files.internal(""));
 		init();
 
 	}
@@ -75,6 +79,7 @@ public class Fish extends Entity {
 		energy = MAX_ENERGY;
 		speed = MAX_SPEED;
 
+		
 	}
 	public void setMAX_HP(float mAX_HP) {
 		MAX_HP = mAX_HP;
@@ -107,7 +112,7 @@ public class Fish extends Entity {
 	public void update(float dt) {
 		super.update(dt);
 		timeElap += dt;
-		
+		bubbleEff.update(dt);
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 			rotation += 10;
 		}
@@ -122,10 +127,10 @@ public class Fish extends Entity {
 		//swimTo(getTarget().x, getTarget().y);
 		if(fishState == FishState.ALIVE){
 			//System.out.println("im alive");
+			bubbleEff.getEmitters().first().setPosition(getWorldPosition().x, getWorldPosition().y);
 			swimTo(targets);
 		}
 		//swim(); 
-		
 		// lower energy
 		if(timeElap > .75f){
 			if(energy > 2){
@@ -155,7 +160,15 @@ public class Fish extends Entity {
 		batch.draw(getAnimation().getFrame(), getWorldPosition().x - getWidth() / 2,
 				getWorldPosition().y - getHeight() / 2, getWidth() / 2, getHeight() / 2, getWidth(), getHeight(),
 				getFacing(), 1, rotation);
-
+		
+		if(getFishState() == FishState.ALIVE){			
+			bubbleEff.draw(batch);
+		}
+		System.out.println("bubble done : "+ bubbleEff.isComplete());
+		if(bubbleEff.isComplete()){
+			
+			bubbleEff.reset();
+		}
 	}
 	private boolean isTargetReach;;
 	

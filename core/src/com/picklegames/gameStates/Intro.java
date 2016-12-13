@@ -32,7 +32,7 @@ public class Intro extends GameState{
 		
 		words = new String[3];
 		words[0] = "Oh no, LudumDare 37 is tommorrow";
-		words[1] = "My owner is going work nonstop";
+		words[1] = "My owner is going to work nonstop";
 		words[2] = "I hope he doesn't forget to feed us";
 		
 		font = new BitmapFont();

@@ -77,6 +77,7 @@ public class Level2 extends GameState {
 		for (int i = 0; i < 5; i++) {
 			fishAIs.add(createFishAI((int) (Math.random() * 500) + 100, (int) (Math.random() * 400) + 100,
 					FishState.ALIVE));
+			
 		}
 		for (int i = 0; i < 10; i++) {
 			fishAIs.add(

@@ -11,5 +11,6 @@ public class DesktopLauncher {
 		config.width = 1080;
 		config.height = 720;
 		config.resizable = false;
+		config.title = "The Last Fish";
 	}
 }
